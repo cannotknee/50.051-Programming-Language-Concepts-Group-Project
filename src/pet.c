@@ -55,7 +55,7 @@ void pet_play(Pet *pet) {
 }
 
 void pet_feed(Pet *pet) {
-    if (pet->stats.hunger_full >= ) {
+    if (pet->stats.hunger_full >= MAX_HUNGER_FULL - 5) {
         printf("Your pet is not hungry\n");
         return;
     }
