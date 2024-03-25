@@ -8,7 +8,7 @@ typedef enum {
     PAGE_PET,
     PAGE_LOADGAME
 } Page;
-/*Confirmation page?*/
+/*Confirmation page where*/
 
 typedef enum {
     MAIN_NEW_GAME = 1,

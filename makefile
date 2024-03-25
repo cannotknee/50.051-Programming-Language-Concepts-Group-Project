@@ -16,4 +16,3 @@ $(TARGET): $(OBJS)
 .PHONY: clean
 clean:
 	rm -f $(OBJS)
-# clean up save files?

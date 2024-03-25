@@ -10,7 +10,7 @@ int main (int argc, char *argv[]) {
     while (running)
     {
         if (update_page) {
-            printf("\033[H\033[J"); /*Clear screen, might want to find a more elgant way*/
+            printf("\033[H\033[J"); /*Clear screen, might want to find a more elegant way*/
             display_page(curr_page);
             update_page = 0;
         }
