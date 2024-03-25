@@ -63,7 +63,7 @@ void free_pet(pet* p);
 void update_stat(state* s, int since_last_change, double multiplier, float offset);
 
 /*Look at other stats and update offsets*/
-void update_offsets(pet* p)
+void update_offsets(pet* p);
 
 /*Update all stats on turn end*/
 /*Includes logic to look at other states and input offset accordingly*/

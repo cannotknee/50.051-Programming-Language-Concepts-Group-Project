@@ -13,4 +13,7 @@ void display_store();
 /* Will probably need to take arguments to choose which pet to display, yet to figure out */
 void display_pet();
 
+/* Displays available games to load*/
+void display_loadgame();
+
 #endif

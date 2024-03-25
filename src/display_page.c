@@ -45,3 +45,9 @@ void display_pet(){
     printf("0. Exit\n");
     printf("\nEnter a number to select an option: ");
 }
+
+void display_loadgame() {
+    printf("This is the load game page\n");
+    printf("Nothing to see here\n");
+    printf("0. Exit\n");
+}

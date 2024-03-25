@@ -14,7 +14,7 @@ void handle_input(int input){
                     update_page = 1;
                     break;
                 case MAIN_LOAD_GAME:
-                    curr_page = PAGE_HOME;
+                    curr_page = PAGE_LOADGAME;
                     update_page = 1;
                     break;
                 case MAIN_QUIT:
@@ -110,6 +110,18 @@ void handle_input(int input){
                     break;
             }
             break;
+        case PAGE_LOADGAME:
+            switch(input)
+            {
+                case 0:
+                    curr_page = PAGE_MAIN;
+                    update_page = 1;
+                    break;
+                default:
+                    printf("Invalid Input\n");
+                    break;
+            }
+            break;
         default:
             printf("Invalid Input\n");
             break;
@@ -131,8 +143,11 @@ void display_page(){
         case PAGE_PET:
             display_pet();
             break;
+        case PAGE_LOADGAME:
+            display_loadgame();
+            break;
         default:
-            printf("Invalid Page\n");
+            printf("B0rken Page\n");
             break;
     }
 }

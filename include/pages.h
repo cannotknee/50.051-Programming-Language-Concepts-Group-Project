@@ -5,8 +5,10 @@ typedef enum {
     PAGE_MAIN,
     PAGE_HOME,
     PAGE_STORE,
-    PAGE_PET
+    PAGE_PET,
+    PAGE_LOADGAME
 } Page;
+/*Confirmation page?*/
 
 typedef enum {
     MAIN_NEW_GAME = 1,
