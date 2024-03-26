@@ -60,14 +60,15 @@ void init_pet(pet* p);
 void free_pet(pet* p);
 
 /*Update specified stat except growth, offset provided by other conditions such as state of other stats*/
-void update_stat(state* s, int since_last_change, double multiplier, float offset);
+/*return 1 if state transitioned, else 0*/
+int update_stat(state* s, int since_last_change, double multiplier, float offset);
 
 /*Look at other stats and update offsets*/
 void update_offsets(pet* p);
 
 /*Update all stats on turn end*/
-/*Includes logic to look at other states and input offset accordingly*/
-void update__all_stats(pet* p);
+/*Returns 0 by default, return 1 if pet died*/
+int update_all_stats(pet* p);
 
 /*calculate success of action and update stats accordingly*/
 /*Return 0 if action failed, 1 if action succeeded, 2 if action was super successful*/
