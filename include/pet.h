@@ -1,9 +1,9 @@
-/* BEGIN: abpxx6d04wxr */
 #ifndef _HAVE_STAT
 #define _HAVE_STAT
 
-#define STAT_COUNT 6
-#define NAME_LENGTH 20
+const int STAT_COUNT = 6;
+const int NAME_LENGTH = 20;
+const double testpersonality[] = {0, 0.05, 0.05, 0.2, 0.3, 0.3};
 
 typedef enum {
     DANGER_STATE = 0,
@@ -54,10 +54,20 @@ typedef struct lepet {
 } pet;
 
 /*malloc for pet attributes and init everything but name*/
+/*malloc the pet ptr before passing in*/
 void init_pet(pet* p);
 
 /*free pet attributes and set p to nullptr*/
 void free_pet(pet* p);
+
+/*Set name of pet*/
+void set_name(pet* p, char* name);
+
+/*Chooses random personality template, TO DO currently only uses test template*/
+void set_personality(pet* p);
+
+/*Set multipliers based on personality template, to be used by choose_personality*/
+void set_multipliers(pet* p, const double* personality);
 
 /*Update specified stat except growth, offset provided by other conditions such as state of other stats*/
 /*return 1 if state transitioned, else 0*/
@@ -67,12 +77,25 @@ int update_stat(state* s, int since_last_change, double multiplier, float offset
 void update_offsets(pet* p);
 
 /*Update all stats on turn end*/
+/*also handles updating the since_last_change attribute*/
 /*Returns 0 by default, return 1 if pet died*/
 int update_all_stats(pet* p);
+
+/*Calculate chances for super success*/
+double calc_action_super_chance(pet *p, action a);
+
+/*calculate chances for failed action*/
+double calc_action_fail_chance(pet *p, action a);
 
 /*calculate success of action and update stats accordingly*/
 /*Return 0 if action failed, 1 if action succeeded, 2 if action was super successful*/
 int handle_action(pet* p, action a);
 
+/*test funcs*/
+void reset_pet(pet *p);
+void print_stats(pet *p);
+void print_multipliers(pet *p);
+void print_offsets(pet *p);
+void print_since_last_change(pet *p);
 
 #endif

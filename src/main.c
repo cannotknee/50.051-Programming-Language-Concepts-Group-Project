@@ -5,7 +5,9 @@
 #include "main.h"
 #include "pages.h"
 
-int main (int argc, char *argv[]) {
+#include "pet.h"
+
+int main123 (int argc, char *argv[]) {
 
     while (running)
     {
@@ -23,4 +25,23 @@ int main (int argc, char *argv[]) {
     printf("Goodbye\n");
 
     exit(0);
+}
+
+/*for testing purposes*/
+int main (int argc, char *argv[]){
+    pet* p;
+    int i;
+    p = (pet*)malloc(sizeof(pet));
+    init_pet(p);
+    set_name(p, "TestPet");
+    set_personality(p);
+
+    for (i = 0; i < 10; i++) {
+        update_all_stats(p);
+        print_stats(p);
+        print_since_last_change(p);
+    }
+
+    free_pet(p);
+    return 0;
 }

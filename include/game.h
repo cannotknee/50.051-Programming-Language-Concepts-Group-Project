@@ -1,17 +1,16 @@
 #ifndef _HAVE_GAME
 #define _HAVE_GAME
 
-#include "pet.h"
 
-#define MAX_PETS 3
-#define MAX_ACTIONS 3
+const int MAX_PETS = 3;
+const int MAX_ACTIONS = 3;
 
 typedef struct legame{
     char* name;
     int day;
     int actions;
     int money;
-    pet* pet;
+    /*pet* pet;*/
 } game;
 
 /*maybe we define a directory here as a constant to use for save files?*/

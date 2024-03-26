@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "pet.h"
 
@@ -20,6 +21,22 @@ void init_pet(pet* p) {
     }
 }
 
+void set_name(pet* p, char* name) {
+    strcpy(p->name, name);
+}
+
+void set_personality(pet* p) {
+    /*TODO introduce random choice and more templates, currently only using 1 test template*/
+    set_multipliers(p, testpersonality);
+}
+
+void set_multipliers(pet* p, const double* template){
+    int i;
+    for (i = 0; i < STAT_COUNT; i++) {
+        p->multiplier[i] = template[i];
+    }
+}
+
 void free_pet(pet* p) {
     free(p->name);
     free(p->stat_name);
@@ -31,7 +48,7 @@ void free_pet(pet* p) {
 
 int update_stat(state* s, int since_last_change, double multiplier, float offset) {
     double randval;
-    randval = rand() / RAND_MAX; /*Rand val btwn 0 & 1*/
+    randval = (double)rand() / RAND_MAX; /*Rand val btwn 0 & 1*/
     if (randval < since_last_change * multiplier + offset && *s >0) {
         *s = *s - 1;
         return 1;
@@ -44,8 +61,8 @@ void update_offsets(pet* p){
     /*TODO any -1 offset due to GOOD_STATEs*/
     int i;
     int x = 0;
-    p->offsets[STAT_FATIGUE] = 0.2 * (NORMAL_STATE - p->stat_state[STAT_HEALTH]);
-    p->offsets[STAT_HEALTH] = 0.1 * (NORMAL_STATE - p->stat_state[STAT_CLEANLINESS]);
+    p->offsets[STAT_FATIGUE] = 0.2 * (int)(NORMAL_STATE - p->stat_state[STAT_HEALTH]);
+    p->offsets[STAT_HEALTH] = 0.1 * (int)(NORMAL_STATE - p->stat_state[STAT_CLEANLINESS]);
     p->offsets[STAT_HAPPINESS] = 0.0;
     for (i = 2; i < STAT_COUNT; i++) {
         /*If any danger state increase happiness transition chance by 30%*/
@@ -71,10 +88,14 @@ int update_all_stats(pet* p) {
             if (p->since_last_change[i] > 1) {
                 return 1;
             }
+            p->since_last_change[i]++;
         }else {
             updated = update_stat(&p->stat_state[i], p->since_last_change[i], p->multiplier[i], p->offsets[i]);
             if (updated) {
                 p->since_last_change[i] = 0;
+            } else {
+                p->since_last_change[i]++;
+            
             }
         }
     }
@@ -122,24 +143,24 @@ double calc_action_fail_chance(pet *p, action a){
             if (p->stat_state[STAT_HUNGER] > BAD_STATE) {
                 chance = 1;
             }else{
-                chance += 0.3 * (NORMAL_STATE - p->stat_state[STAT_HEALTH]);
-                chance += 0.3 * (NORMAL_STATE - p->stat_state[STAT_FATIGUE]);
+                chance += 0.3 * (int)(NORMAL_STATE - p->stat_state[STAT_HEALTH]);
+                chance += 0.3 * (int)(NORMAL_STATE - p->stat_state[STAT_FATIGUE]);
             }
             break;
         case ACTION_PLAY:
             if (p->stat_state[STAT_HAPPINESS] > BAD_STATE) {
                 chance = 1;
             }else {
-                chance += 0.5 * (NORMAL_STATE - p->stat_state[STAT_HEALTH]);
-                chance += 0.5 * (NORMAL_STATE - p->stat_state[STAT_FATIGUE]);
+                chance += 0.5 * (int)(NORMAL_STATE - p->stat_state[STAT_HEALTH]);
+                chance += 0.5 * (int)(NORMAL_STATE - p->stat_state[STAT_FATIGUE]);
             }
             break;
         case ACTION_BATHE:
             if (p->stat_state[STAT_CLEANLINESS] > BAD_STATE) {
                 chance = 1;
             }else {
-                chance += 0.3 * (NORMAL_STATE - p->stat_state[STAT_HEALTH]);
-                chance += 0.1 * (NORMAL_STATE - p->stat_state[STAT_HAPPINESS]);
+                chance += 0.3 * (int)(NORMAL_STATE - p->stat_state[STAT_HEALTH]);
+                chance += 0.1 * (int)(NORMAL_STATE - p->stat_state[STAT_HAPPINESS]);
             }
             break;
         case ACTION_TRAIN:
@@ -148,7 +169,7 @@ double calc_action_fail_chance(pet *p, action a){
                     chance = 1;
                     break;
                 }else {
-                    chance += 0.2 * (NORMAL_STATE - p->stat_state[i]);
+                    chance += 0.2 * (int)(NORMAL_STATE - p->stat_state[i]);
                 }
             }
             break;
@@ -156,7 +177,7 @@ double calc_action_fail_chance(pet *p, action a){
             if (p->stat_state[STAT_FATIGUE] > BAD_STATE) {
                 chance = 1;
             }else {
-                chance += 0.3 * (NORMAL_STATE - p->stat_state[STAT_HEALTH]);
+                chance += 0.3 * (int)(NORMAL_STATE - p->stat_state[STAT_HEALTH]);
             }
             break;
         case ACTION_MEDICINE:
@@ -177,28 +198,63 @@ double calc_action_fail_chance(pet *p, action a){
 }
 
 int handle_action(pet *p, action a){
-    /*
-    double randval;
-    randval = rand() / RAND_MAX; Rand val btwn 0 & 1*/
     
-    switch (a) {
-        case ACTION_FEED:
-            break;
-        case ACTION_PLAY:
-            break;
-        case ACTION_BATHE:
-            break;
-        case ACTION_TRAIN:
-            break;
-        case ACTION_SLEEP:
-            break;
-        case ACTION_MEDICINE:
-            break;
-        case ACTION_VET:
-            return 1;
-            break;
-        default:
-            return 0;
+    double randval;
+    double failchance;
+    double superchance;
+
+    randval = rand() / RAND_MAX; /*Rand val btwn 0 & 1*/
+    failchance = calc_action_fail_chance(p, a);
+    superchance = calc_action_super_chance(p, a);
+    if (randval < failchance) {
+        return 0;
     }
-    return 0;
+    else if (randval < superchance) {
+        return 2;
+    }
+    else {
+        return 1;
+    }
+}
+
+void reset_pet(pet *p) {
+    int i;
+    for (i = 0; i < STAT_COUNT; i++) {
+        p->stat_state[i] = NORMAL_STATE;
+        p->multiplier[i] = 0.1;
+        p->offsets[i] = 0;
+        p->since_last_change[i] = 0;
+    }
+}
+
+void print_stats(pet *p) {
+    int i;
+    printf("Stats: %s\n", p->name);
+    for (i = 0; i < STAT_COUNT; i++) {
+        printf("%d: %d\n", p->stat_name[i], p->stat_state[i]);
+    }
+}
+
+void print_multipliers(pet *p) {
+    int i;
+    printf("Multipliers: %s\n", p->name);
+    for (i = 0; i < STAT_COUNT; i++) {
+        printf("%d: %f\n", p->stat_name[i], p->multiplier[i]);
+    }
+}
+
+void print_offsets(pet *p) {
+    int i;
+    printf("Offsets: %s\n", p->name);
+    for (i = 0; i < STAT_COUNT; i++) {
+        printf("%d: %f\n", p->stat_name[i], p->offsets[i]);
+    }
+}
+
+void print_since_last_change(pet *p) {
+    int i;
+    printf("Since last change: %s\n", p->name);
+    for (i = 0; i < STAT_COUNT; i++) {
+        printf("%d: %d\n", p->stat_name[i], p->since_last_change[i]);
+    }
 }
