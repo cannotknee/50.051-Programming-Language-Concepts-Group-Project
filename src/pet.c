@@ -56,7 +56,7 @@ void update_offsets(pet* p){
     }
     /*Increase transition chance by 10% if total of other stats is less than 6, 2 bad or 1 danger + 1 bad*/
     if (x < 6) {
-        p->offsets[STAT_HAPPINESS] += 0.1
+        p->offsets[STAT_HAPPINESS] += 0.1;
     }
 }
 
@@ -115,6 +115,7 @@ double calc_action_super_chance(pet *p, action a){
 }
 
 double calc_action_fail_chance(pet *p, action a){
+    int i;
     double chance = 0;
     switch (a) {
         case ACTION_FEED:
@@ -176,9 +177,10 @@ double calc_action_fail_chance(pet *p, action a){
 }
 
 int handle_action(pet *p, action a){
+    /*
     double randval;
-    randval = rand() / RAND_MAX; /*Rand val btwn 0 & 1*/
-
+    randval = rand() / RAND_MAX; Rand val btwn 0 & 1*/
+    
     switch (a) {
         case ACTION_FEED:
             break;
