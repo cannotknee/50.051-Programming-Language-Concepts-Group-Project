@@ -128,7 +128,7 @@ void handle_input(int input){
     }   
 }
 
-void display_page(){
+void display_page(void){
     switch(curr_page)
     {
         case PAGE_MAIN:

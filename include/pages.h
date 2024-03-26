@@ -51,6 +51,6 @@ extern Page curr_page;
 void handle_input(int input);
 
 /* Wrapper func to display current page, calls relavent funcs, may need to pass in global variables to those funcs */
-void display_page();
+void display_page(void);
 
 #endif 
