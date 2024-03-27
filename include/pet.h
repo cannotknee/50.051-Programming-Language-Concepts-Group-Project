@@ -1,9 +1,9 @@
-#ifndef _HAVE_STAT
-#define _HAVE_STAT
+#ifndef _HAVE_PET
+#define _HAVE_PET
 
-const int STAT_COUNT = 6;
-const int NAME_LENGTH = 20;
-const double testpersonality[] = {0, 0.05, 0.05, 0.2, 0.3, 0.3};
+extern const int STAT_COUNT;
+extern const int NAME_LENGTH;
+extern const double testpersonality[];
 
 typedef enum {
     DANGER_STATE = 0,

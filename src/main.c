@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "main.h"
 #include "pages.h"
+#include "main.h"
 
 #include "pet.h"
 
