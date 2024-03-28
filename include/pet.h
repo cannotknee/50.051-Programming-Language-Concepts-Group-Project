@@ -12,13 +12,6 @@ extern const char* bad_state_messages[];
 extern const char* normal_state_messages[];
 extern const char* good_state_messages[];
 
-/* BEGIN: abpxx6d04wxr */
-#ifndef _HAVE_STAT
-#define _HAVE_STAT
-
-#define STAT_COUNT 6
-#define NAME_LENGTH 20
-
 typedef enum {
     EGG = 0,
     BABY = 1,

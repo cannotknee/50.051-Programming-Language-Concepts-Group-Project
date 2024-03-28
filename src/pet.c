@@ -21,7 +21,6 @@ void init_pet(pet *p)
         p->multiplier[i] = 0.1; /*Currently just set all to 0.1, will need to somehow randomise this or use template in future*/
         p->since_last_change[i] = 0;
     }
-    p->display_filename = (char*)malloc(256 * sizeof(char));
     p->display_filename = randomize_pet_display(EGG);
 }
 
