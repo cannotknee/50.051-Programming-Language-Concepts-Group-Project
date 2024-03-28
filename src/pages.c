@@ -112,6 +112,8 @@ void handle_input(int input)
             break;
         case PET_MEDICINE:
             printf("Medicine\n");
+            global_game->medicine_owned--;
+            update_page = 1;
             break;
         case PET_SEll:
             printf("Sell\n");
