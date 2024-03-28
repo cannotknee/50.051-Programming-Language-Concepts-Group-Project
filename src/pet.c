@@ -245,9 +245,9 @@ double calc_action_fail_chance(pet *p, action a)
     return chance;
 }
 
-int handle_action(pet *p, action a)
+int calc_action(pet *p, action a)
 {
-
+    
     double randval;
     double failchance;
     double superchance;
@@ -266,6 +266,59 @@ int handle_action(pet *p, action a)
     else
     {
         return 1;
+    }
+}
+
+void report_result(pet* p, action a, int success, char* actionresult, char* statusreport){
+    int i;
+    int randval;
+    int badcount;
+    state badlist[10];
+
+    switch (success)
+    {
+        case 0:
+            strcpy(actionresult, action_fail_messages[a]);
+            break;
+        case 1:
+            strcpy(actionresult, action_success_messages[a]);
+            break;
+        case 2:
+            strcpy(actionresult, action_super_messages[a]);
+            break;
+        default:
+            break;
+    }
+    
+    badcount = 0;
+    for (i = 0; i < STAT_COUNT; i++)
+    {
+        /*If any danger state, report it*/
+        if (p->stat_state[i] == DANGER_STATE)
+        {
+            strcpy(statusreport, danger_state_messages[i]);
+            return;
+        }
+        else if (p->stat_state[i] == BAD_STATE)
+        {
+            badlist[badcount] = p->stat_name[i];
+            badcount++;
+        }
+    }
+    /*otherwise report a random bad state*/
+    if (badcount) {
+        randval = rand() % badcount;
+        strcpy(statusreport, bad_state_messages[badlist[randval]]);
+    } else {
+        /*otherwise report a random stat other than growth*/
+        randval = rand() % (STAT_COUNT - 1) + 1;
+        if (p->stat_state[randval] == NORMAL_STATE)
+        {
+            strcpy(statusreport, normal_state_messages[randval]);
+        } else if (p->stat_state[randval] == GOOD_STATE)
+        {
+            strcpy(statusreport, good_state_messages[randval]);
+        }
     }
 }
 
