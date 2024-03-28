@@ -11,6 +11,8 @@
 #define ADULT_STAGE_FILE "adult_display"
 #define NUM_ADULT_STAGE_FILES 5
 
+extern game *global_game;
+
 /* Displays the main page */
 void display_main(void);
 
