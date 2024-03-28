@@ -6,6 +6,7 @@
 #include "pages.h"
 #include "game.h"
 
+
 void init_game(game *g, char *name)
 {
     g->name = name;
@@ -21,3 +22,4 @@ void free_game(game *g)
     free_pet(g->pet);
     free(g->name);
 }
+

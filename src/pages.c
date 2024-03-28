@@ -31,6 +31,7 @@ void handle_input(int input)
         default:
             printf("Invalid Input\n");
             break;
+
         }
         break;
     case PAGE_HOME:
@@ -47,6 +48,7 @@ void handle_input(int input)
         case HOME_PET_3:
             curr_page = PAGE_PET;
             update_page = 1;
+
             break;
         case HOME_STORE:
             curr_page = PAGE_STORE;

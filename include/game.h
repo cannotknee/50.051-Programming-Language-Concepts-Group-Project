@@ -27,6 +27,8 @@ void save(game *g);
 void load(game *g);
 
 /*Read directory for save files (which should be player names) to display on loadgame page*/
+
 char **get_save_files();
+
 
 #endif

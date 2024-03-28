@@ -16,7 +16,7 @@ int main1(int argc, char *argv[])
         if (update_page)
         {
             printf("\033[H\033[J"); /*Clear screen, might want to find a more elegant way*/
-            display_page(curr_page);
+            display_page();
             update_page = 0;
         }
 
