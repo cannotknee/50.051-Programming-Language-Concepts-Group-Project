@@ -7,7 +7,8 @@ typedef enum
     PAGE_HOME,
     PAGE_STORE,
     PAGE_PET,
-    PAGE_LOADGAME
+    PAGE_LOADGAME,
+    PAGE_SAVEGAME
 } Page;
 /*Confirmation page where*/
 

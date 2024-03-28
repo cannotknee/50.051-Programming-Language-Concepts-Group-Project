@@ -18,4 +18,7 @@ void display_pet(void);
 /* Displays available games to load*/
 void display_loadgame(void);
 
+/* Displays available slots to save game*/
+void display_savegame(void);
+
 #endif

@@ -1,6 +1,10 @@
 #ifndef _HAVE_GAME
 #define _HAVE_GAME
 
+#ifndef F_OK
+#define F_OK 0
+#endif
+
 extern const int MAX_ACTIONS;
 
 typedef struct legame
@@ -21,14 +25,14 @@ void init_game(game *g, char *name);
 void free_game(game *g);
 
 /*Save the player data to (player name) file in ??? directory specified in argument (to add)*/
-void save(game *g);
+int save(game *g, int index);
 
 /*malloc game and Load specified file, path to add to arguments???*/
-void load(game *g);
+int load(int index);
 
 /*Read directory for save files (which should be player names) to display on loadgame page*/
 
-char **get_save_files();
+char **get_save_files(void);
 
 
 #endif

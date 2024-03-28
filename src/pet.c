@@ -21,6 +21,8 @@ void init_pet(pet *p)
         p->multiplier[i] = 0.1; /*Currently just set all to 0.1, will need to somehow randomise this or use template in future*/
         p->since_last_change[i] = 0;
     }
+    /* Set default name */
+    set_name(p, "Test Pet");
 }
 
 void set_name(pet *p, char *name)
@@ -301,7 +303,7 @@ void report_result(pet* p, action a, int success, char* actionresult, char* stat
         }
         else if (p->stat_state[i] == BAD_STATE)
         {
-            badlist[badcount] = p->stat_name[i];
+            badlist[badcount] = (state)p->stat_name[i];
             badcount++;
         }
     }
