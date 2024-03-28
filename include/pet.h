@@ -12,8 +12,15 @@ extern const char* bad_state_messages[];
 extern const char* normal_state_messages[];
 extern const char* good_state_messages[];
 
-typedef enum
-{
+typedef enum {
+    EGG = 0,
+    BABY = 1,
+    YOUNG = 2,
+    ADULT = 3
+} level;
+
+
+typedef enum {
     DANGER_STATE = 0,
     BAD_STATE = 1,
     NORMAL_STATE = 2,
@@ -61,6 +68,7 @@ typedef struct lepet
     double *multiplier;     /*for calculations of state transition, basically personality*/
     double *offsets;        /*for update_stat, calculated based on current state of other stats*/
     int *since_last_change; /*turns since last change*/
+    char* display_filename;
 } pet;
 
 /*malloc for pet attributes and init everything but name*/
