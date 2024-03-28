@@ -31,7 +31,6 @@ void handle_input(int input)
         default:
             printf("Invalid Input\n");
             break;
-
         }
         break;
     case PAGE_HOME:
@@ -77,6 +76,12 @@ void handle_input(int input)
             break;
         case STORE_BUY_3:
             printf("Buy\n");
+            break;
+        case STORE_BUY_MEDICINE:
+            printf("Medicine bought\n");
+            global_game->money -= 10;
+            global_game->medicine_owned++;
+            update_page = 1;
             break;
         case STORE_EXIT:
             curr_page = PAGE_HOME;

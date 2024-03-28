@@ -7,7 +7,6 @@
 /*Options to display on page are not finalised yet, some options may need to be hidden depending on state of game */
 /*TODO how to handle confirmation screens i.e. save completed quit?, confirm buy/sell, confirm read report. */
 
-
 void display_main()
 {
 
@@ -17,7 +16,6 @@ void display_main()
     printf("0. Quit\n");
     printf("\nEnter a number to select an option: ");
 }
-
 
 void display_home()
 {
@@ -32,7 +30,6 @@ void display_home()
     printf("\nEnter a number to select an option: ");
 }
 
-
 void display_store()
 {
     printf("This is the store page      ");
@@ -41,10 +38,10 @@ void display_store()
     printf("1. Buy\n");
     printf("2. Buy\n");
     printf("3. Buy\n");
+    printf("4. Buy Medicine   (currently owned: %d)\n", global_game->medicine_owned);
     printf("0. Exit\n");
     printf("\nEnter a number to select an option: ");
 }
-
 
 void display_pet()
 {
@@ -55,12 +52,11 @@ void display_pet()
     printf("3. Clean\n");
     printf("4. Train\n");
     printf("5. Sleep\n");
-    printf("6. Medicine\n");
+    printf("6. Medicine   (currently owned: %d)\n", global_game->medicine_owned);
     printf("7. Sell\n");
     printf("0. Exit\n");
     printf("\nEnter a number to select an option: ");
 }
-
 
 void display_loadgame()
 {

@@ -8,7 +8,7 @@
 #include "game.h"
 #include "main.h"
 
-int main1(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
 
     while (running)
@@ -31,7 +31,7 @@ int main1(int argc, char *argv[])
 }
 
 /*for testing purposes*/
-int main(int argc, char *argv[])
+int main1(int argc, char *argv[])
 {
     int i;
     char *actionresult = (char *)malloc(256);

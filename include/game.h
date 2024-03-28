@@ -9,6 +9,7 @@ typedef struct legame
     int day;
     int actions;
     int money;
+    int medicine_owned;
     pet *pet;
 } game;
 
@@ -29,6 +30,5 @@ void load(game *g);
 /*Read directory for save files (which should be player names) to display on loadgame page*/
 
 char **get_save_files();
-
 
 #endif

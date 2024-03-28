@@ -33,6 +33,7 @@ typedef enum
     STORE_BUY_1 = 1, /*temp*/
     STORE_BUY_2 = 2, /*temp*/
     STORE_BUY_3 = 3, /*temp*/
+    STORE_BUY_MEDICINE = 4,
     STORE_EXIT = 0
 } StoreOptions;
 
