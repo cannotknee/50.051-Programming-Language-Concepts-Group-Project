@@ -6,6 +6,15 @@
 #define NAME_LENGTH 20
 
 typedef enum {
+    EGG = 0,
+    BABY = 1,
+    YOUNG = 2,
+    ADULT = 3
+} level;
+
+
+
+typedef enum {
     DANGER_STATE = 0,
     BAD_STATE = 1,
     NORMAL_STATE = 2,
