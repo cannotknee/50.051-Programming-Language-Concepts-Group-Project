@@ -3,13 +3,11 @@
 #include "pet.h"
 #include "game.h"
 #include "display_page.h"
-#include "../include/pet.h"
 
 /*Options to display on page are not finalised yet, some options may need to be hidden depending on state of game */
 /*TODO how to handle confirmation screens i.e. save completed quit?, confirm buy/sell, confirm read report. */
 
-
-void display_main()
+void display_main(void)
 {
 
     printf("This is the main menu page\n");
@@ -19,11 +17,10 @@ void display_main()
     printf("\nEnter a number to select an option: ");
 }
 
-
-void display_home()
+void display_home(void)
 {
-
     printf("This is the home page\n");
+    /* TODO: Print pet names dynamically */
     printf("1. Pet 1\n");
     printf("2. Pet 2\n");
     printf("3. Pet 3\n");
@@ -33,8 +30,7 @@ void display_home()
     printf("\nEnter a number to select an option: ");
 }
 
-
-void display_store()
+void display_store(void)
 {
     printf("This is the store page      ");
     printf("Currency: %d\n", global_game->money);
@@ -59,13 +55,37 @@ void display_pet_menu(void){
     printf("\nEnter a number to select an option: ");
 }
 
-
-void display_loadgame()
+void display_loadgame(void)
 {
-
+    int i = 0;
+    char **save_files = get_save_files();
     printf("This is the load game page\n");
-    printf("Nothing to see here\n");
+    if (save_files == NULL)
+    {
+        printf("Nothing to see here\n");
+        printf("0. Exit\n");
+        return;
+    }
+    else
+    {
+        while (save_files[i] != NULL)
+        {
+            printf("%d. %s\n", i + 1, save_files[i]);
+            i++;
+        }
+        printf("0. Exit\n");
+    }
+}
+
+void display_savegame(void)
+{
+    printf("This is the save game page, choose a slot to save into:\n");
+    /* TODO: Dynamically show if slot has existing file */
+    printf("1. Slot 1\n");
+    printf("2. Slot 2\n");
+    printf("3. Slot 3\n");
     printf("0. Exit\n");
+    printf("\nEnter a number to select an option: ");
 }
 
 // display pet image from file

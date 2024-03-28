@@ -31,7 +31,6 @@ void handle_input(int input)
         default:
             printf("Invalid Input\n");
             break;
-
         }
         break;
     case PAGE_HOME:
@@ -55,7 +54,8 @@ void handle_input(int input)
             update_page = 1;
             break;
         case HOME_SAVE:
-            printf("Save\n");
+            curr_page = PAGE_SAVEGAME;
+            update_page = 1;
             break;
         case HOME_EXIT:
             curr_page = PAGE_MAIN;
@@ -128,17 +128,39 @@ void handle_input(int input)
             update_page = 1;
             break;
         default:
-            printf("Invalid Input\n");
+            if (
+                load(input))
+            {
+                curr_page = PAGE_HOME;
+                update_page = 1;
+            }
+            else
+            {
+                printf("Invalid Input\n");
+            }
             break;
         }
         break;
-    default:
-        printf("Invalid Input\n");
-        break;
+    case PAGE_SAVEGAME:
+        switch (input)
+        {
+        case 0:
+            curr_page = PAGE_HOME;
+            update_page = 1;
+            break;
+        default:
+            if (save(global_game, input))
+            {
+                printf("Save Successful\n");
+                curr_page = PAGE_HOME;
+                update_page = 1;
+            }
+            break;
+        }
     }
 }
 
-void display_page()
+void display_page(void)
 {
     switch (curr_page)
     {
@@ -156,6 +178,9 @@ void display_page()
         break;
     case PAGE_LOADGAME:
         display_loadgame();
+        break;
+    case PAGE_SAVEGAME:
+        display_savegame();
         break;
     default:
         printf("B0rken Page\n");

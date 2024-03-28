@@ -302,7 +302,7 @@ void report_result(pet* p, action a, int success, char* actionresult, char* stat
         }
         else if (p->stat_state[i] == BAD_STATE)
         {
-            badlist[badcount] = p->stat_name[i];
+            badlist[badcount] = (state)p->stat_name[i];
             badcount++;
         }
     }
