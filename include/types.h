@@ -67,12 +67,11 @@ typedef enum {
 /*TODO remove growth and reorder stats for handle_action*/
 typedef enum
 {
-    STAT_GROWTH = 0,
-    STAT_HAPPINESS = 1,
-    STAT_HEALTH = 2,
-    STAT_CLEANLINESS = 3,
-    STAT_FATIGUE = 4,
-    STAT_HUNGER = 5
+    STAT_HAPPINESS = 0,
+    STAT_HEALTH = 1,
+    STAT_CLEANLINESS = 2,
+    STAT_FATIGUE = 3,
+    STAT_HUNGER = 4
 } stat;
 
 typedef enum
@@ -89,6 +88,9 @@ typedef enum
 typedef struct lepet
 {
     char *name; /*Up to 20 characters*/
+    level growth;
+    int exp;
+    int value;
     stat *stat_name;
     state *stat_state;      /*stat*/
     double *multiplier;     /*for calculations of state transition, basically personality*/

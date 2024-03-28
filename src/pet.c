@@ -24,7 +24,8 @@ void init_pet(pet *p)
         p->multiplier[i] = 0.1; /*Currently just set all to 0.1, will need to somehow randomise this or use template in future*/
         p->since_last_change[i] = 0;
     }
-    randomize_pet_display(p, EGG);
+    p->growth = EGG;
+    randomize_pet_display(p);
 }
 
 void set_name(pet *p, char *name)
@@ -54,6 +55,9 @@ void free_pet(pet *p)
     free(p->stat_state);
     free(p->multiplier);
     free(p->since_last_change);
+    free(p->offsets);
+    free(p->display_filename);
+    free(p);
     p = NULL;
 }
 
@@ -78,7 +82,7 @@ void update_offsets(pet *p)
     p->offsets[STAT_FATIGUE] = 0.2 * (int)(NORMAL_STATE - p->stat_state[STAT_HEALTH]);
     p->offsets[STAT_HEALTH] = 0.1 * (int)(NORMAL_STATE - p->stat_state[STAT_CLEANLINESS]);
     p->offsets[STAT_HAPPINESS] = 0.0;
-    for (i = 2; i < STAT_COUNT; i++)
+    for (i = 1; i < STAT_COUNT; i++)
     {
         /*If any danger state increase happiness transition chance by 30%*/
         if (p->stat_state[i] == DANGER_STATE)
@@ -92,6 +96,7 @@ void update_offsets(pet *p)
     {
         p->offsets[STAT_HAPPINESS] += 0.1;
     }
+    /*Currently hunger and cleanliness unaffected by other stats*/
 }
 
 int update_all_stats(pet *p)
@@ -99,8 +104,7 @@ int update_all_stats(pet *p)
     int i;
     int updated;
     update_offsets(p);
-    /*use update_stat for all stats but growth*/
-    for (i = 1; i < STAT_COUNT; i++)
+    for (i = 0; i < STAT_COUNT; i++)
     {
         if (p->stat_state[i] == DANGER_STATE)
         {
@@ -143,7 +147,7 @@ double calc_action_super_chance(pet *p, action a)
         chance = 0.3;
         break;
     case ACTION_TRAIN:
-        for (i = 1; i < STAT_COUNT; i++)
+        for (i = 0; i < STAT_COUNT; i++)
         {
             if (p->stat_state[i] == GOOD_STATE)
             {
@@ -204,7 +208,7 @@ double calc_action_fail_chance(pet *p, action a)
         }
         break;
     case ACTION_TRAIN:
-        for (i = 1; i < STAT_COUNT; i++)
+        for (i = 0; i < STAT_COUNT; i++)
         {
             if (p->stat_state[i] == DANGER_STATE)
             {

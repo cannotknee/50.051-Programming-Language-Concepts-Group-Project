@@ -18,7 +18,7 @@ void init_game(game *g, char *name)
 
 void free_game(game *g)
 {
-    /*To check for any pet pointers and free them if necessary*/
+    /*To check for any pet pointers and call free_pet if necessary*/
     free(g->name);
     free(g);
 }

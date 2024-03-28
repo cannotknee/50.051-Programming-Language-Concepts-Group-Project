@@ -2,7 +2,7 @@
 #define _HAVE_MAIN
 
 const int BUFFER_SIZE = 256;
-const int STAT_COUNT = 6;
+const int STAT_COUNT = 5;
 const int NAME_LENGTH = 20;
 const int MAX_ACTIONS = 3;
 
@@ -12,6 +12,8 @@ int update_page = 1; /*Used to indicate if the terminal should be cleared and pa
 int input_buffer;
 char input[256];
 Page curr_page = PAGE_MAIN;
-game *global_game;
+game *global_game = NULL;
+char *action_result = NULL;
+char *status_report = NULL;
 
 #endif

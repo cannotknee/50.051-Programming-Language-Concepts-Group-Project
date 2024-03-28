@@ -37,7 +37,6 @@ const char* action_super_messages[] = {
 };
 
 const char* danger_state_messages[] = {
-    "Insert growth adult state message",
     "Insert happiness danger state message",
     "Insert health danger state message",
     "Insert cleanliness danger state message",
@@ -46,7 +45,6 @@ const char* danger_state_messages[] = {
 };
 
 const char* bad_state_messages[] = {
-    "Insert growth young state message",
     "Insert happiness bad state message",
     "Insert health bad state message",
     "Insert cleanliness bad state message",
@@ -55,7 +53,6 @@ const char* bad_state_messages[] = {
 };
 
 const char* normal_state_messages[] = {
-    "Insert growth baby state message",
     "Insert happiness normal state message",
     "Insert health normal state message",
     "Insert cleanliness normal state message",
@@ -64,7 +61,6 @@ const char* normal_state_messages[] = {
 };
 
 const char* good_state_messages[] = {
-    "Insert growth egg state message",
     "Insert happiness good state message",
     "Insert health good state message",
     "Insert cleanliness good state message",

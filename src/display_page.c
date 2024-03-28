@@ -105,23 +105,23 @@ void display_pet_image(pet *p) {
 }
 
 /* randomize pet display image on level change */
-void randomize_pet_display(pet *p, level currlevel){
+void randomize_pet_display(pet *p){
     char filename[256]; /* Assuming a maximum filename length of 20 characters */
-    if (currlevel == EGG) {
+    if (p->growth == EGG) {
         int rand_int = (rand() % NUM_EGG_STAGE_FILES) + 1;
         sprintf(filename, "image/%s_%d.txt", EGG_STAGE_FILE, rand_int);
     }
-    else if (currlevel == BABY)
+    else if (p->growth == BABY)
     {
         int rand_int = (rand() % NUM_BABY_STAGE_FILES) + 1;
         sprintf(filename, "image/%s_%d.txt", BABY_STAGE_FILE, rand_int);
     }
-    else if (currlevel == YOUNG)
+    else if (p->growth == YOUNG)
     {
         int rand_int = (rand() % NUM_YOUNG_STAGE_FILES) + 1;
         sprintf(filename, "image/%s_%d.txt", YOUNG_STAGE_FILE, rand_int);
     }
-    else if (currlevel == ADULT)
+    else if (p->growth == ADULT)
     {
         int rand_int = (rand() % NUM_ADULT_STAGE_FILES) + 1;
         sprintf(filename, "image/%s_%d.txt", ADULT_STAGE_FILE, rand_int);
