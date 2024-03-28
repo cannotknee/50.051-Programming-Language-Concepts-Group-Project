@@ -1,11 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "pet.h"
+#include "types.h"
 #include "pages.h"
-#include "game.h"
-
 #include "display_page.h"
+#include "game.h"
 
 void handle_input(int input)
 {
@@ -174,7 +173,7 @@ void display_page(void)
         display_store();
         break;
     case PAGE_PET:
-        display_pet();
+        display_pet_menu();
         break;
     case PAGE_LOADGAME:
         display_loadgame();

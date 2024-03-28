@@ -6,15 +6,8 @@
 #endif
 
 extern const int MAX_ACTIONS;
-
-typedef struct legame
-{
-    char *name;
-    int day;
-    int actions;
-    int money;
-    pet *pet;
-} game;
+extern game *global_game;
+extern const int NAME_LENGTH;
 
 /*maybe we define a directory here as a constant to use for save files?*/
 
@@ -31,7 +24,6 @@ int save(game *g, int index);
 int load(int index);
 
 /*Read directory for save files (which should be player names) to display on loadgame page*/
-
 char **get_save_files(void);
 
 

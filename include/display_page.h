@@ -27,11 +27,13 @@ void display_pet_menu(void);
 
 /* Displays available games to load*/
 void display_loadgame(void);
+
 /* Display pet image */
 void display_pet_image(pet *p);
 
 /* Upgrade pet image on level up */
 void randomize_pet_display(pet *p, level currlevel);
+
 /* Displays available slots to save game*/
 void display_savegame(void);
 

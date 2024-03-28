@@ -4,25 +4,21 @@
 #include <dirent.h>
 #include <unistd.h>
 
-#include "pet.h"
-#include "pages.h"
+#include "types.h"
 #include "game.h"
-
-game *global_game = NULL;
 
 void init_game(game *g, char *name)
 {
-    g->name = strdup(name);
+    g->name = malloc(strlen(name) + 1);
+    strcpy(g->name, name);
     g->day = 0;
     g->actions = MAX_ACTIONS;
     g->money = 100;
-    g->pet = (pet *)malloc(sizeof(pet));
-    init_pet(g->pet);
 }
 
 void free_game(game *g)
 {
-    free_pet(g->pet);
+    /*To check for any pet pointers and free them if necessary*/
     free(g->name);
     free(g);
 }

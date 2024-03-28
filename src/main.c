@@ -2,10 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "pet.h"
+#include "types.h"
 #include "pages.h"
-
-#include "game.h"
 #include "main.h"
 
 int main(int argc, char *argv[])
@@ -33,27 +31,6 @@ int main(int argc, char *argv[])
 /*for testing purposes*/
 int main1(int argc, char *argv[])
 {
-    int i;
-    char *actionresult = (char *)malloc(256);
-    char *statusreport = (char *)malloc(256);
-    game *global_game = (game *)malloc(sizeof(game));
-    init_game(global_game, "TestGame");
-    set_name(global_game->pet, "TestPet");
-    set_personality(global_game->pet);
-    global_game->pet->stat_state[STAT_FATIGUE] = BAD_STATE;
-    global_game->pet->stat_state[STAT_HUNGER] = BAD_STATE;
-    global_game->pet->stat_state[STAT_CLEANLINESS] = BAD_STATE;
-
-    for (i = 0; i < 7; i++)
-    {
-        report_result(global_game->pet, (action)i, 2, actionresult, statusreport);
-        printf("%d\n", i);
-        printf("%s\n", actionresult);
-        printf("%s\n", statusreport);
-    }
-
-    printf("done\n");
-    free_game(global_game);
 
     return 0;
 }

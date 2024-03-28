@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "pet.h"
+
+#include "types.h"
+#include "pet_file_io.h"
 
 void read_pet_state_from_csv(const char *filename, pet *p) {
     FILE *file = fopen(filename, "r");
@@ -19,9 +21,9 @@ void read_pet_state_from_csv(const char *filename, pet *p) {
     }
 
     /* Read pet state from CSV file */
-    if (fscanf(file, "%19[^,],%d,%d,%lf,%lf,%d\n", p->name, &p->stat_name[STAT_GROWTH],
-               &p->stat_state[STAT_GROWTH], &p->multiplier[STAT_GROWTH], &p->offsets[STAT_GROWTH],
-               &p->since_last_change[STAT_GROWTH]) != STAT_COUNT) {
+    if (fscanf(file, "%19[^,],%d,%d,%lf,%lf,%d\n", p->name, (int*)&p->stat_name[0],
+               (int*)&p->stat_state[0], &p->multiplier[0], &p->offsets[0],
+               &p->since_last_change[0]) != STAT_COUNT) {
         printf("Error: Invalid file format in %s\n", filename);
         fclose(file);
         free(p->name);

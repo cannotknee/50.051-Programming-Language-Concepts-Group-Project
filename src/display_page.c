@@ -1,8 +1,9 @@
 #include <stdio.h>
+#include <stdlib.h>
 
-#include "pet.h"
-#include "game.h"
+#include "types.h"
 #include "display_page.h"
+#include "game.h"
 
 /*Options to display on page are not finalised yet, some options may need to be hidden depending on state of game */
 /*TODO how to handle confirmation screens i.e. save completed quit?, confirm buy/sell, confirm read report. */
@@ -88,14 +89,14 @@ void display_savegame(void)
     printf("\nEnter a number to select an option: ");
 }
 
-// display pet image from file
+/* display pet image from file*/
 void display_pet_image(pet *p) {
+    char line[256];
     FILE *file = fopen(p->display_filename, "r");
     if (file == NULL) {
         printf("Error: File not found\n");
     }
 
-    char line[256];
     while (fgets(line, sizeof(line), file)) {
         printf("%s", line);
     }
@@ -103,9 +104,9 @@ void display_pet_image(pet *p) {
     fclose(file);
 }
 
-// randomize pet display image on level change
+/* randomize pet display image on level change */
 void randomize_pet_display(pet *p, level currlevel){
-    char filename[256]; // Assuming a maximum filename length of 20 characters
+    char filename[256]; /* Assuming a maximum filename length of 20 characters */
     if (currlevel == EGG) {
         int rand_int = (rand() % NUM_EGG_STAGE_FILES) + 1;
         sprintf(filename, "image/%s_%d.txt", EGG_STAGE_FILE, rand_int);
@@ -131,6 +132,6 @@ void randomize_pet_display(pet *p, level currlevel){
     }
 
     printf("Displaying pet image: %s\n", filename);
-    display_pet_image(filename);
+    display_pet_image(p);
     p -> display_filename = filename;
 }
