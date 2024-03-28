@@ -15,8 +15,6 @@ void init_game(game *g, char *name)
     g->actions = MAX_ACTIONS;
     g->money = 100;
     g->medicine_owned = 0;
-    g->pet = (pet *)malloc(sizeof(pet));
-    init_pet(g->pet);
 }
 
 void free_game(game *g)

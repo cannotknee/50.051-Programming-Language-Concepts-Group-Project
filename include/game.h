@@ -5,16 +5,6 @@
 #define F_OK 0
 #endif
 
-typedef struct legame
-{
-    char *name;
-    int day;
-    int actions;
-    int money;
-    int medicine_owned;
-    pet *pet;
-} game;
-
 extern const int MAX_ACTIONS;
 extern game *global_game;
 extern const int NAME_LENGTH;
