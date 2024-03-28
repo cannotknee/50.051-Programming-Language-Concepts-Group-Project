@@ -1,11 +1,16 @@
 #include <stdio.h>
 
+#include "pet.h"
+#include "game.h"
 #include "display_page.h"
 
 /*Options to display on page are not finalised yet, some options may need to be hidden depending on state of game */
 /*TODO how to handle confirmation screens i.e. save completed quit?, confirm buy/sell, confirm read report. */
 
-void display_main(void){
+
+void display_main()
+{
+
     printf("This is the main menu page\n");
     printf("1. New Game\n");
     printf("2. Load Game\n");
@@ -13,7 +18,10 @@ void display_main(void){
     printf("\nEnter a number to select an option: ");
 }
 
-void display_home(void){
+
+void display_home()
+{
+
     printf("This is the home page\n");
     printf("1. Pet 1\n");
     printf("2. Pet 2\n");
@@ -24,8 +32,12 @@ void display_home(void){
     printf("\nEnter a number to select an option: ");
 }
 
-void display_store(void){
-    printf("This is the store page\n");
+
+void display_store()
+{
+    printf("This is the store page      ");
+    printf("Currency: %d\n", global_game->money);
+
     printf("1. Buy\n");
     printf("2. Buy\n");
     printf("3. Buy\n");
@@ -33,7 +45,10 @@ void display_store(void){
     printf("\nEnter a number to select an option: ");
 }
 
-void display_pet(void){
+
+void display_pet()
+{
+
     printf("This is the pet page\n");
     printf("1. Feed\n");
     printf("2. Play\n");
@@ -46,7 +61,10 @@ void display_pet(void){
     printf("\nEnter a number to select an option: ");
 }
 
-void display_loadgame(void) {
+
+void display_loadgame()
+{
+
     printf("This is the load game page\n");
     printf("Nothing to see here\n");
     printf("0. Exit\n");

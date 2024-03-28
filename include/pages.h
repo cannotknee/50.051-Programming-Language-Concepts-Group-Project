@@ -1,7 +1,8 @@
 #ifndef _HAVE_PAGES
 #define _HAVE_PAGES
 
-typedef enum {
+typedef enum
+{
     PAGE_MAIN,
     PAGE_HOME,
     PAGE_STORE,
@@ -10,13 +11,15 @@ typedef enum {
 } Page;
 /*Confirmation page where*/
 
-typedef enum {
+typedef enum
+{
     MAIN_NEW_GAME = 1,
     MAIN_LOAD_GAME = 2,
     MAIN_QUIT = 0
 } MainOptions;
 
-typedef enum {
+typedef enum
+{
     HOME_PET_1 = 1,
     HOME_PET_2 = 2,
     HOME_PET_3 = 3,
@@ -25,14 +28,16 @@ typedef enum {
     HOME_EXIT = 0
 } HomeOptions;
 
-typedef enum {
+typedef enum
+{
     STORE_BUY_1 = 1, /*temp*/
     STORE_BUY_2 = 2, /*temp*/
     STORE_BUY_3 = 3, /*temp*/
     STORE_EXIT = 0
 } StoreOptions;
 
-typedef enum {
+typedef enum
+{
     PET_FEED = 1,
     PET_PLAY = 2,
     PET_CLEAN = 3,
@@ -53,4 +58,4 @@ void handle_input(int input);
 /* Wrapper func to display current page, calls relavent funcs, may need to pass in global variables to those funcs */
 void display_page(void);
 
-#endif 
+#endif
