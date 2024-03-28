@@ -13,7 +13,6 @@ typedef enum {
 } level;
 
 
-
 typedef enum {
     DANGER_STATE = 0,
     BAD_STATE = 1,
@@ -60,6 +59,7 @@ typedef struct lepet {
     double* multiplier; /*for calculations of state transition, basically personality*/
     double* offsets; /*for update_stat, calculated based on current state of other stats*/
     int* since_last_change; /*turns since last change*/
+    char* display_filename;
 } pet;
 
 /*malloc for pet attributes and init everything but name*/
