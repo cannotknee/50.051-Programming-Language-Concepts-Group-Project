@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "pet.h"
 #include "pages.h"
@@ -15,6 +16,9 @@ void handle_input(int input)
         {
         case MAIN_NEW_GAME:
             curr_page = PAGE_HOME;
+            global_game = (game *)malloc(sizeof(game));
+            init_game(global_game, "TestGame");
+
             update_page = 1;
             break;
         case MAIN_LOAD_GAME:

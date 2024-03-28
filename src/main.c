@@ -34,8 +34,8 @@ int main1(int argc, char *argv[])
 int main(int argc, char *argv[])
 {
     int i;
-    char* actionresult = (char *)malloc(256);
-    char* statusreport = (char *)malloc(256);
+    char *actionresult = (char *)malloc(256);
+    char *statusreport = (char *)malloc(256);
     game *global_game = (game *)malloc(sizeof(game));
     init_game(global_game, "TestGame");
     set_name(global_game->pet, "TestPet");
@@ -46,13 +46,14 @@ int main(int argc, char *argv[])
 
     for (i = 0; i < 7; i++)
     {
-        report_result(global_game->pet, (action) i, 2, actionresult, statusreport);
+        report_result(global_game->pet, (action)i, 2, actionresult, statusreport);
         printf("%d\n", i);
         printf("%s\n", actionresult);
         printf("%s\n", statusreport);
     }
-    
+
     printf("done\n");
     free_game(global_game);
+
     return 0;
 }

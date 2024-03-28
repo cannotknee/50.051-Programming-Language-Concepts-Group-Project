@@ -1,6 +1,8 @@
 #ifndef _HAVE_DISPLAY_PAGE
 #define _HAVE_DISPLAY_PAGE
 
+extern game *global_game;
+
 /* Displays the main page */
 void display_main();
 
