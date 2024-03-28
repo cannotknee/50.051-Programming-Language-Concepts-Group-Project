@@ -34,6 +34,7 @@ typedef enum
     STORE_BUY_1 = 1, /*temp*/
     STORE_BUY_2 = 2, /*temp*/
     STORE_BUY_3 = 3, /*temp*/
+    STORE_BUY_MEDICINE = 4,
     STORE_EXIT = 0
 } StoreOptions;
 
@@ -49,15 +50,16 @@ typedef enum
     PET_EXIT = 0
 } PetOptions;
 
-typedef enum {
+typedef enum
+{
     EGG = 0,
     BABY = 1,
     YOUNG = 2,
     ADULT = 3
 } level;
 
-
-typedef enum {
+typedef enum
+{
     DANGER_STATE = 0,
     BAD_STATE = 1,
     NORMAL_STATE = 2,
@@ -94,7 +96,7 @@ typedef struct lepet
     double *multiplier;     /*for calculations of state transition, basically personality*/
     double *offsets;        /*for update_stat, calculated based on current state of other stats*/
     int *since_last_change; /*turns since last change*/
-    char* display_filename;
+    char *display_filename;
 } pet;
 
 typedef struct legame
@@ -103,6 +105,7 @@ typedef struct legame
     int day;
     int actions;
     int money;
+    int medicine_owned;
     pet *pet;
 } game;
 

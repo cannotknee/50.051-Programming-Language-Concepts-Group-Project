@@ -77,6 +77,12 @@ void handle_input(int input)
         case STORE_BUY_3:
             printf("Buy\n");
             break;
+        case STORE_BUY_MEDICINE:
+            printf("Medicine bought\n");
+            global_game->money -= 10;
+            global_game->medicine_owned++;
+            update_page = 1;
+            break;
         case STORE_EXIT:
             curr_page = PAGE_HOME;
             update_page = 1;
@@ -106,6 +112,8 @@ void handle_input(int input)
             break;
         case PET_MEDICINE:
             printf("Medicine\n");
+            global_game->medicine_owned--;
+            update_page = 1;
             break;
         case PET_SEll:
             printf("Sell\n");

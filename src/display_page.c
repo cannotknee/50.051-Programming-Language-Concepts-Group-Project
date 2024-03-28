@@ -39,18 +39,20 @@ void display_store(void)
     printf("1. Buy\n");
     printf("2. Buy\n");
     printf("3. Buy\n");
+    printf("4. Buy Medicine   (currently owned: %d)\n", global_game->medicine_owned);
     printf("0. Exit\n");
     printf("\nEnter a number to select an option: ");
 }
 
-void display_pet_menu(void){
+void display_pet_menu(void)
+{
     printf("This is the pet page\n");
     printf("1. Feed\n");
     printf("2. Play\n");
     printf("3. Clean\n");
     printf("4. Train\n");
     printf("5. Sleep\n");
-    printf("6. Medicine\n");
+    printf("6. Medicine   (currently owned: %d)\n", global_game->medicine_owned);
     printf("7. Sell\n");
     printf("0. Exit\n");
     printf("\nEnter a number to select an option: ");
@@ -90,24 +92,29 @@ void display_savegame(void)
 }
 
 /* display pet image from file*/
-void display_pet_image(pet *p) {
+void display_pet_image(pet *p)
+{
     char line[256];
     FILE *file = fopen(p->display_filename, "r");
-    if (file == NULL) {
+    if (file == NULL)
+    {
         printf("Error: File not found\n");
     }
 
-    while (fgets(line, sizeof(line), file)) {
+    while (fgets(line, sizeof(line), file))
+    {
         printf("%s", line);
     }
-    
+
     fclose(file);
 }
 
 /* randomize pet display image on level change */
-void randomize_pet_display(pet *p, level currlevel){
+void randomize_pet_display(pet *p, level currlevel)
+{
     char filename[256]; /* Assuming a maximum filename length of 20 characters */
-    if (currlevel == EGG) {
+    if (currlevel == EGG)
+    {
         int rand_int = (rand() % NUM_EGG_STAGE_FILES) + 1;
         sprintf(filename, "image/%s_%d.txt", EGG_STAGE_FILE, rand_int);
     }
@@ -126,12 +133,13 @@ void randomize_pet_display(pet *p, level currlevel){
         int rand_int = (rand() % NUM_ADULT_STAGE_FILES) + 1;
         sprintf(filename, "image/%s_%d.txt", ADULT_STAGE_FILE, rand_int);
     }
-    else {
+    else
+    {
         printf("Error: Invalid level\n");
         return;
     }
 
     printf("Displaying pet image: %s\n", filename);
     display_pet_image(p);
-    p -> display_filename = filename;
+    p->display_filename = filename;
 }

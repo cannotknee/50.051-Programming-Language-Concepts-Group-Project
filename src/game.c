@@ -14,6 +14,7 @@ void init_game(game *g, char *name)
     g->day = 0;
     g->actions = MAX_ACTIONS;
     g->money = 100;
+    g->medicine_owned = 0;
 }
 
 void free_game(game *g)
