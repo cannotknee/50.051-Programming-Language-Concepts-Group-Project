@@ -3,68 +3,76 @@
 
 extern const int STAT_COUNT;
 extern const int NAME_LENGTH;
-extern const double testpersonality[];
-extern const char* action_fail_messages[];
-extern const char* action_success_messages[];
-extern const char* action_super_messages[];
-extern const char* danger_state_messages[];
-extern const char* bad_state_messages[];
-extern const char* normal_state_messages[];
-extern const char* good_state_messages[];
+const double testpersonality[] = {0, 0.05, 0.05, 0.2, 0.3, 0.3};
 
-typedef enum
-{
-    DANGER_STATE = 0,
-    BAD_STATE = 1,
-    NORMAL_STATE = 2,
-    GOOD_STATE = 3
-} state;
+/*result messages*/
+const char* action_fail_messages[] = {
+    "It showed no interest in the food",
+    "It did not want to play",
+    "It struggled too much to bathe it",
+    "It refused to listen",
+    "It seemed unable to sleep well",
+    "The medicine seemed to have no effect",
+    "Error: This action should not fail"
+};
 
-/*Cleanliness: independent of other stats, affected by play/train/bathe
-Fatigue: affected by health, affected by play/train/bathe/sleep
-Hunger: independent of other stats, affected by feed
-Health: affected by cleanliness, affected by medicine/vet
-Happiness: affected by everything, affected by play*/
-typedef enum
-{
-    STAT_GROWTH = 0,
-    STAT_HAPPINESS = 1,
-    STAT_HEALTH = 2,
-    STAT_CLEANLINESS = 3,
-    STAT_FATIGUE = 4,
-    STAT_HUNGER = 5
-} stat;
+const char* action_success_messages[] = {
+    "It ate the food happily",
+    "It played with you",
+    "It is now clean",
+    "It learned something new",
+    "It slept soundly",
+    "It seems to be feeling better",
+    "It looks a lot better after returning from the vet"
+};
 
-/*Feed: hunger, health, fatigue
-Play: happiness, health, fatigue
-Bathe: happiness, health
-Train: everything
-Sleep: fatigue, health
-Medicine: health
-Vet: nothing */
-typedef enum
-{
-    ACTION_FEED,
-    ACTION_PLAY,
-    ACTION_BATHE,
-    ACTION_TRAIN,
-    ACTION_SLEEP,
-    ACTION_MEDICINE,
-    ACTION_VET
-} action;
+const char* action_super_messages[] = {
+    "It ate so much and looks so happy!",
+    "It played with you with great enthusiasm",
+    "It is now sparkling clean",
+    "It learned something new and is already demonstrating it",
+    "It seems like it had a nice dream",
+    "It seems to be feeling much better",
+    "Error: This action should not have super success"
+};
 
-typedef struct lepet
-{
-    char *name; /*Up to 20 characters*/
-    stat *stat_name;
-    state *stat_state;      /*stat*/
-    double *multiplier;     /*for calculations of state transition, basically personality*/
-    double *offsets;        /*for update_stat, calculated based on current state of other stats*/
-    int *since_last_change; /*turns since last change*/
-} pet;
+const char* danger_state_messages[] = {
+    "Insert growth adult state message",
+    "Insert happiness danger state message",
+    "Insert health danger state message",
+    "Insert cleanliness danger state message",
+    "Insert fatigue danger state message",
+    "Insert hunger danger state message",
+};
+
+const char* bad_state_messages[] = {
+    "Insert growth young state message",
+    "Insert happiness bad state message",
+    "Insert health bad state message",
+    "Insert cleanliness bad state message",
+    "Insert fatigue bad state message",
+    "Insert hunger bad state message",
+};
+
+const char* normal_state_messages[] = {
+    "Insert growth baby state message",
+    "Insert happiness normal state message",
+    "Insert health normal state message",
+    "Insert cleanliness normal state message",
+    "Insert fatigue normal state message",
+    "Insert hunger normal state message",
+};
+
+const char* good_state_messages[] = {
+    "Insert growth egg state message",
+    "Insert happiness good state message",
+    "Insert health good state message",
+    "Insert cleanliness good state message",
+    "Insert fatigue good state message",
+    "Insert hunger good state message",
+};
 
 /*malloc for pet attributes and init everything but name*/
-/*malloc the pet ptr before passing in*/
 void init_pet(pet *p);
 
 /*free pet attributes and set p to nullptr*/
