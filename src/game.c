@@ -30,29 +30,18 @@ void init_game(game *g, char *name)
 
 void update_day(game *g)
 {
-    int i;
-    if (g->part_of_day < 2)
+    if (g->part_of_day < 3)
     {
         g->part_of_day++;
     }
     else
     {
-        /* for testing purposes, to check if the stats are updating properly*/
-        /* we want to update the stats for the next day*/
-        /*for (i = 0; i < 10; i++)
-        {
-            if (g->pets_owned[i] != NULL)
-            {
-                printf("name: %s\n", g->pets_owned[i]->name);
-                printf("health: %d\n", g->pets_owned[i]->stat_state[STAT_HEALTH]);
-                printf("happiness: %d\n", g->pets_owned[i]->stat_state[STAT_HAPPINESS]);
-                printf("cleanliness: %d\n", g->pets_owned[i]->stat_state[STAT_CLEANLINESS]);
-                printf("fatigue: %d\n", g->pets_owned[i]->stat_state[STAT_FATIGUE]);
-                printf("hunger: %d\n", g->pets_owned[i]->stat_state[STAT_HUNGER]);
-            }
-        }*/
-        g->part_of_day = 0;
+        printf("Error: This should not be reachable, day updated when should have blocked due to no actions left\n");
     }
+}
+
+void end_day(game *g){
+    g->part_of_day = 0;
 }
 
 void free_game(game *g)
@@ -118,7 +107,7 @@ int save(game *g, int index)
     }
 
     /* Write game state to save file */
-    fprintf(file, "%d,%d,%d,%s\n", g->part_of_day, g->actions, g->money);
+    fprintf(file, "%d,%d,%d\n", g->part_of_day, g->actions, g->money);
 
     fclose(file);
     printf("Game saved successfully to slot %d.\n", index);

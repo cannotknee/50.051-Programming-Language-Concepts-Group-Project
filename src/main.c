@@ -4,10 +4,13 @@
 
 #include "types.h"
 #include "pages.h"
+#include "pet.h"
 #include "main.h"
 
-int main(int argc, char *argv[])
+int main1(int argc, char *argv[])
 {
+    actionresult = (char *)malloc(255 * sizeof(char));
+    statusreport = (char *)malloc(255 * sizeof(char));
 
     while (running)
     {
@@ -23,14 +26,21 @@ int main(int argc, char *argv[])
 
         handle_input(input_buffer);
     }
+
+    free(actionresult);
+    free(statusreport);
     printf("Goodbye\n");
 
     exit(0);
 }
 
 /*for testing purposes*/
-int main1(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
-
+    pet *newpet;
+    init_pet(newpet);
+    print_stats(newpet);
+    printf("We got here yay\n");
+    set_name(newpet, "TestPet");
     return 0;
 }

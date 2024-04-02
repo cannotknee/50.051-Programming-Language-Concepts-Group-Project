@@ -3,7 +3,7 @@
 
 const int BUFFER_SIZE = 256;
 const int STAT_COUNT = 5;
-const int NAME_LENGTH = 20;
+const int NAME_LENGTH = 255;
 const int MAX_ACTIONS = 1;
 
 /*Happiness, Health, Cleanliness, Fatigue, Hunger*/
@@ -76,5 +76,7 @@ int input_buffer;
 char input[256];
 Page curr_page = PAGE_MAIN;
 game *global_game;
+char *actionresult;
+char *statusreport;
 
 #endif

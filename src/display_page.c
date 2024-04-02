@@ -35,6 +35,7 @@ void display_home(void)
     printf("11. Store\n");
     printf("12. Settings\n");
     printf("13. Save\n");
+    printf("14. End day\n");
     printf("0. Exit\n");
     printf("\nEnter a number to select an option: ");
 }
@@ -84,9 +85,8 @@ void display_pet_menu(void)
     printf("2. Play\n");
     printf("3. Clean\n");
     printf("4. Train\n");
-    printf("5. Sleep\n");
-    printf("6. Medicine   (currently owned: %d)\n", global_game->medicine_owned); /* for testing purposes only, since feeding medicine is a free action*/
-    printf("7. Sell\n");
+    printf("5. Medicine   (currently owned: %d)\n", global_game->medicine_owned); /* for testing purposes only, since feeding medicine is a free action*/
+    printf("6. Sell\n");
     printf("0. Exit\n");
     printf("\nEnter a number to select an option: ");
 }

@@ -22,17 +22,32 @@ void init_pet(pet *p)
         p->stat_name[i] = (stat)i;
         p->stat_state[i] = NORMAL_STATE;
         p->multiplier[i] = 0.1; /*Currently just set all to 0.1, will need to somehow randomise this or use template in future*/
+        p->offsets[i] = 0;
         p->since_last_change[i] = 0;
     }
     p->growth = (level *)malloc(sizeof(level));
     p->exp = (int *)malloc(sizeof(int));
     p->value = (int *)malloc(sizeof(int));
     /*randomize_pet_display(p, EGG); */
+    p->growth = EGG;
+    printf("pet initialised\n");
+    print_stats(p);
 }
 
 void set_name(pet *p, char *name)
 {
+    printf("setting name\n");
     strcpy(p->name, name);
+    /*int i;
+    int length = strlen(name);
+    for (i = 0; i < length; i++)
+    {
+        p->name[i] = name[i];
+    }
+    p->name[length] = '\0';*/
+    printf("name set\n");
+    printf("name: %s\n", p->name);
+    print_stats(p);
 }
 
 void set_personality(pet *p)
@@ -40,7 +55,7 @@ void set_personality(pet *p)
     /*TODO introduce random choice and more templates, currently only using 1 test template*/
     set_multipliers(p, testpersonality);
     /*TODO include value in personality, easy, medium hard???*/
-    p->value = 10;
+    *p->value = 10;
 }
 
 void set_multipliers(pet *p, const double *template)
@@ -144,23 +159,23 @@ int update_all_stats(pet *p, char *actionresult, char *statusreport)
     /*growth update*/
     p->exp++;
     /*TODO Growth message?*/
-    switch (p->growth){
+    switch (*p->growth){
         case EGG:
-            if (p->exp > 3){
-                p->growth = BABY;
-                p->exp -= 3;
+            if (*p->exp > 3){
+                *p->growth = BABY;
+                *p->exp -= 3;
             }
             break;
         case BABY:
-            if (p->exp > 15){
-                p->growth = YOUNG;
-                p->exp -= 15;
+            if (*p->exp > 15){
+                *p->growth = YOUNG;
+                *p->exp -= 15;
             }
             break;
         case YOUNG:
-            if (p->exp > 40){
-                p->growth = ADULT;
-                p->exp -= 40;
+            if (*p->exp > 40){
+                *p->growth = ADULT;
+                *p->exp -= 40;
             }
             break;
         case ADULT: 
@@ -226,26 +241,12 @@ double calc_action_fail_chance(pet *p, action a)
         }
         break;
     case ACTION_PLAY:
-        if (p->stat_state[STAT_HAPPINESS] > BAD_STATE)
-        {
-            chance = 1;
-        }
-        else
-        {
-            chance += 0.5 * (int)(NORMAL_STATE - p->stat_state[STAT_HEALTH]);
-            chance += 0.5 * (int)(NORMAL_STATE - p->stat_state[STAT_FATIGUE]);
-        }
+        chance += 0.5 * (int)(NORMAL_STATE - p->stat_state[STAT_HEALTH]);
+        chance += 0.5 * (int)(NORMAL_STATE - p->stat_state[STAT_FATIGUE]);
         break;
     case ACTION_BATHE:
-        if (p->stat_state[STAT_CLEANLINESS] > BAD_STATE)
-        {
-            chance = 1;
-        }
-        else
-        {
-            chance += 0.3 * (int)(NORMAL_STATE - p->stat_state[STAT_HEALTH]);
-            chance += 0.1 * (int)(NORMAL_STATE - p->stat_state[STAT_HAPPINESS]);
-        }
+        chance += 0.3 * (int)(NORMAL_STATE - p->stat_state[STAT_HEALTH]);
+        chance += 0.1 * (int)(NORMAL_STATE - p->stat_state[STAT_HAPPINESS]);
         break;
     case ACTION_TRAIN:
         for (i = 0; i < STAT_COUNT; i++)
@@ -262,14 +263,7 @@ double calc_action_fail_chance(pet *p, action a)
         }
         break;
     case ACTION_SLEEP:
-        if (p->stat_state[STAT_FATIGUE] > BAD_STATE)
-        {
-            chance = 1;
-        }
-        else
-        {
-            chance += 0.3 * (int)(NORMAL_STATE - p->stat_state[STAT_HEALTH]);
-        }
+        chance += 0.3 * (int)(NORMAL_STATE - p->stat_state[STAT_HEALTH]);
         break;
     case ACTION_MEDICINE:
         if (p->stat_state[STAT_HEALTH] == BAD_STATE)
@@ -371,6 +365,9 @@ void report_result(pet *p, action a, int success, char *actionresult, char *stat
         else if (p->stat_state[randval] == GOOD_STATE)
         {
             strcpy(statusreport, good_state_messages[randval]);
+        } else
+        {
+            printf("Error: this should be unreachable in report_result()\n");
         }
     }
 }
@@ -415,7 +412,7 @@ void handle_action(pet *p, action a, char *actionresult, char *statusreport){
                     p->since_last_change[STAT_CLEANLINESS]++;
                 }
 
-                p->exp += 3;
+                *p->exp += 3;
                 if (p->stat_state[STAT_HAPPINESS] == DANGER_STATE){
                     p->stat_state[STAT_HAPPINESS] = BAD_STATE;
                 } else if (p->stat_state[STAT_HAPPINESS] == BAD_STATE)
@@ -464,12 +461,12 @@ void handle_action(pet *p, action a, char *actionresult, char *statusreport){
                 }
 
                 if (success == 1){
-                    p->exp += 3;
-                    p->value *= 1.1;
+                    *p->exp += 3;
+                    *p->value *= 1.1;
                 } else if (success == 2)
                 {
-                    p->exp += 5;
-                    p->value *= 1.2;
+                    *p->exp += 5;
+                    *p->value *= 1.2;
                 }
             }
             break;

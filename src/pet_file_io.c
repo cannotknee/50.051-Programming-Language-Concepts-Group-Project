@@ -41,9 +41,9 @@ void write_pet_state_to_csv(const char *filename, const pet *p) {
     }
 
     /* Write pet state to CSV file */
-    fprintf(file, "%s,%d,%d,%.2lf,%.2lf,%d\n", p->name, p->stat_name[STAT_GROWTH],
-            p->stat_state[STAT_GROWTH], p->multiplier[STAT_GROWTH], p->offsets[STAT_GROWTH],
-            p->since_last_change[STAT_GROWTH]);
+    fprintf(file, "%s,%d,%d,%.2lf,%.2lf,%d\n", p->name, p->stat_name[0],
+            p->stat_state[0], p->multiplier[0], p->offsets[0],
+            p->since_last_change[0]);
 
     fclose(file);
 }

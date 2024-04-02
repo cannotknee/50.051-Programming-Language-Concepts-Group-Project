@@ -37,4 +37,8 @@ void randomize_pet_display(pet *p, level currlevel);
 /* Displays available slots to save game*/
 void display_savegame(void);
 
+void display_confirmation(void);
+
+void display_settings(void);
+
 #endif

@@ -9,6 +9,9 @@
 
 void handle_input(int input)
 {
+    int i;
+    int died;
+    pet *newpet;
     switch (curr_page)
     {
     case PAGE_MAIN:
@@ -47,7 +50,6 @@ void handle_input(int input)
         case HOME_PET_3:
             curr_page = PAGE_PET;
             update_page = 1;
-
             break;
         case HOME_STORE:
             curr_page = PAGE_STORE;
@@ -56,6 +58,22 @@ void handle_input(int input)
         case HOME_SAVE:
             curr_page = PAGE_SAVEGAME;
             update_page = 1;
+            break;
+        case HOME_END_DAY:
+            end_day(global_game);
+            printf("after end day\n");
+            /*TODO if multiple pets are to be implemented, need a way to cycle through them and update all stats for all*/
+            died = update_all_stats(global_game->pets_owned[0], actionresult, statusreport);
+            if (died)
+            {
+                printf("Your pet has died\n");
+                curr_page = PAGE_MAIN;
+                update_page = 1;
+                break;
+            }else {
+                printf("%s\n", actionresult);
+                printf("%s\n", statusreport);
+            }
             break;
         case HOME_EXIT:
             curr_page = PAGE_MAIN;
@@ -74,14 +92,10 @@ void handle_input(int input)
         switch (input)
         {
         case STORE_BUY_1:
-            int i;
-            printf("Buy\n");
             /* TODO: initialize pet and store in pets_owned*/
-            pet *newpet;
             init_pet(newpet);
             set_name(newpet, "Pikachu");
             set_personality(newpet);
-
             if (global_game->money >= 50)
             {
                 global_game->money -= 50;
@@ -90,7 +104,7 @@ void handle_input(int input)
                     if (global_game->pets_owned[i] == NULL)
                     {
                         global_game->pets_owned[i] = newpet;
-                        update_page = 1;
+                        /*update_page = 1;*/
                         break;
                     }
                 }
@@ -131,55 +145,61 @@ void handle_input(int input)
         }
         break;
     case PAGE_PET:
+        /*TODO select pet, currently default pet at index 0*/
         switch (input)
         {
         case PET_FEED:
-            printf("Feed\n");
+            if (global_game->part_of_day > 2) {
+                printf("It is too late to do anything, wait until tomorrow\n");
+                break;
+            }
+            handle_action(global_game->pets_owned[0], ACTION_FEED, actionresult, statusreport);
+            printf("%s\n", actionresult);
+            printf("%s\n", statusreport);
+            update_day(global_game);
             break;
         case PET_PLAY:
-            printf("Play\n");
-            if (global_game->action_confirmation == 1)
-            {
-                curr_page = PAGE_CONFIRMATION;
+            if (global_game->part_of_day > 2) {
+                printf("It is too late to do anything, wait until tomorrow\n");
+                break;
             }
-            else if (global_game->action_confirmation == 0)
-            {
-                update_day(global_game);
-            }
-            update_page = 1;
+            handle_action(global_game->pets_owned[0], ACTION_PLAY, actionresult, statusreport);
+            printf("%s\n", actionresult);
+            printf("%s\n", statusreport);
+            update_day(global_game);
             break;
         case PET_CLEAN:
-            printf("Clean\n");
-            if (global_game->action_confirmation == 1)
-            {
-                curr_page = PAGE_CONFIRMATION;
+            if (global_game->part_of_day > 2) {
+                printf("It is too late to do anything, wait until tomorrow\n");
+                break;
             }
-            else if (global_game->action_confirmation == 0)
-            {
-                update_day(global_game);
-            }
-            update_page = 1;
+            handle_action(global_game->pets_owned[0], ACTION_BATHE, actionresult, statusreport);
+            printf("%s\n", actionresult);
+            printf("%s\n", statusreport);
+            update_day(global_game);
             break;
         case PET_TRAIN:
-            printf("Train\n");
-            if (global_game->action_confirmation == 1)
-            {
-                curr_page = PAGE_CONFIRMATION;
+            if (global_game->part_of_day > 2) {
+                printf("It is too late to do anything, wait until tomorrow\n");
+                break;
             }
-            else if (global_game->action_confirmation == 0)
-            {
-                update_day(global_game);
-            }
-            update_page = 1;
-            break;
-        case PET_SLEEP:
-            printf("Sleep\n");
+            handle_action(global_game->pets_owned[0], ACTION_TRAIN, actionresult, statusreport);
+            printf("%s\n", actionresult);
+            printf("%s\n", statusreport);
+            update_day(global_game);
             break;
         case PET_MEDICINE:
+            if (global_game->part_of_day > 2) {
+                printf("It is too late to do anything, wait until tomorrow\n");
+                break;
+            }
             if (global_game->medicine_owned > 0)
             {
                 global_game->medicine_owned--;
-                update_page = 1;
+                handle_action(global_game->pets_owned[0], ACTION_MEDICINE, actionresult, statusreport);
+                printf("%s\n", actionresult);
+                printf("%s\n", statusreport);
+                update_day(global_game);
             }
             else
             {
@@ -188,7 +208,7 @@ void handle_input(int input)
 
             break;
         case PET_SEll:
-            printf("Sell\n");
+            printf("Sell not implemented yet\n");
             break;
         case PET_EXIT:
             curr_page = PAGE_HOME;
