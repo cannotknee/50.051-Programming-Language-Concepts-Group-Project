@@ -9,7 +9,6 @@
 void init_pet(pet *p)
 {
     int i;
-
     p = (pet *)malloc(sizeof(pet));
     p->name = (char *)malloc(NAME_LENGTH * sizeof(char));
     p->stat_name = (stat *)malloc(STAT_COUNT * sizeof(stat));
@@ -24,7 +23,8 @@ void init_pet(pet *p)
         p->multiplier[i] = 0.1; /*Currently just set all to 0.1, will need to somehow randomise this or use template in future*/
         p->since_last_change[i] = 0;
     }
-    /*randomize_pet_display(p, EGG); */
+    p->display_filename = (char *)malloc(20 * sizeof(char));
+    randomize_pet_display(p, EGG);
 }
 
 void set_name(pet *p, char *name)

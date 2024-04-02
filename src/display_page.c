@@ -147,6 +147,7 @@ void randomize_pet_display(pet *p, level currlevel)
         return;
     }
 
+    /* TODO: Remove print and display lines after testing. Print at correct place */
     printf("Displaying pet image: %s\n", filename);
     p->display_filename = filename;
     display_pet_image(p);
