@@ -143,7 +143,7 @@ int update_all_stats(pet *p, char *actionresult, char *statusreport)
 
     /*growth update*/
     p->exp++;
-    /*TODO Growth message*/
+    /*TODO Growth message?*/
     switch (p->growth){
         case EGG:
             if (p->exp > 3){
@@ -377,6 +377,7 @@ void report_result(pet *p, action a, int success, char *actionresult, char *stat
 
 void handle_action(pet *p, action a, char *actionresult, char *statusreport){
     int success;
+    int updated;
 
     success = calc_action(p, a);
     
@@ -388,19 +389,45 @@ void handle_action(pet *p, action a, char *actionresult, char *statusreport){
                         p->stat_state[STAT_HUNGER] = GOOD_STATE;
                     }
                 } 
-                if (p->stat_state[STAT_HUNGER] == BAD_STATE){
+                if (p->stat_state[STAT_HUNGER] == NORMAL_STATE || p->stat_state[STAT_HUNGER] == BAD_STATE){
                     p->stat_state[STAT_HUNGER] = GOOD_STATE;
-                }else if (p->stat_state[STAT_HUNGER] == NORMAL_STATE){
-                    p->stat_state[STAT_HUNGER] = GOOD_STATE;
-                }  
+                }else if (p->stat_state[STAT_HUNGER] == DANGER_STATE){
+                    p->stat_state[STAT_HUNGER] = NORMAL_STATE;
+                }
+                p->since_last_change[STAT_HUNGER] = 0;
             }
             break;
         case ACTION_PLAY:
             if (success){
+                updated = update_stat(&p->stat_state[STAT_FATIGUE], p->since_last_change[STAT_FATIGUE], p->multiplier[STAT_FATIGUE], p->offsets[STAT_FATIGUE]);
+                if (updated){
+                    p->since_last_change[STAT_FATIGUE] = 0;
+                } else
+                {
+                    p->since_last_change[STAT_FATIGUE]++;
+                }
 
-                if(success == 2){
-                    
-                }   
+                updated = update_stat(&p->stat_state[STAT_CLEANLINESS], p->since_last_change[STAT_CLEANLINESS], p->multiplier[STAT_CLEANLINESS], p->offsets[STAT_CLEANLINESS]);
+                if (updated){
+                    p->since_last_change[STAT_CLEANLINESS] = 0;
+                } else
+                {
+                    p->since_last_change[STAT_CLEANLINESS]++;
+                }
+
+                p->exp += 3;
+                if (p->stat_state[STAT_HAPPINESS] == DANGER_STATE){
+                    p->stat_state[STAT_HAPPINESS] = BAD_STATE;
+                } else if (p->stat_state[STAT_HAPPINESS] == BAD_STATE)
+                {
+                    p->stat_state[STAT_HAPPINESS] = NORMAL_STATE;
+                }
+
+                if (success == 2)
+                {
+                    p->stat_state[STAT_HAPPINESS] = GOOD_STATE;
+                } 
+                p->since_last_change[STAT_HAPPINESS] = 0;
             }
             break;
         case ACTION_BATHE:
@@ -411,21 +438,39 @@ void handle_action(pet *p, action a, char *actionresult, char *statusreport){
                     }else {
                         p->stat_state[STAT_CLEANLINESS] = NORMAL_STATE;
                     }   
-                } else if (p->stat_state[STAT_CLEANLINESS] == BAD_STATE)
-                {
-                    p->stat_state[STAT_CLEANLINESS] = GOOD_STATE;
-                } else if (p->stat_state[STAT_CLEANLINESS] == NORMAL_STATE)
+                } else if (p->stat_state[STAT_CLEANLINESS] == BAD_STATE || p->stat_state[STAT_CLEANLINESS] == NORMAL_STATE)
                 {
                     p->stat_state[STAT_CLEANLINESS] = GOOD_STATE;
                 }
+                p->since_last_change[STAT_CLEANLINESS] = 0;
             }
             break;
         case ACTION_TRAIN:
             if (success){
+                updated = update_stat(&p->stat_state[STAT_FATIGUE], p->since_last_change[STAT_FATIGUE], p->multiplier[STAT_FATIGUE], p->offsets[STAT_FATIGUE]);
+                if (updated){
+                    p->since_last_change[STAT_FATIGUE] = 0;
+                } else
+                {
+                    p->since_last_change[STAT_FATIGUE]++;
+                }
 
-                if(success == 2){
-                    
-                }   
+                updated = update_stat(&p->stat_state[STAT_CLEANLINESS], p->since_last_change[STAT_CLEANLINESS], p->multiplier[STAT_CLEANLINESS], p->offsets[STAT_CLEANLINESS]);
+                if (updated){
+                    p->since_last_change[STAT_CLEANLINESS] = 0;
+                } else
+                {
+                    p->since_last_change[STAT_CLEANLINESS]++;
+                }
+
+                if (success == 1){
+                    p->exp += 3;
+                    p->value *= 1.1;
+                } else if (success == 2)
+                {
+                    p->exp += 5;
+                    p->value *= 1.2;
+                }
             }
             break;
         case ACTION_SLEEP:
@@ -440,16 +485,19 @@ void handle_action(pet *p, action a, char *actionresult, char *statusreport){
                 if(success == 2){
                     p->stat_state[STAT_FATIGUE] = GOOD_STATE;
                 }   
+                p->since_last_change[STAT_FATIGUE] = 0;
             }
             break;
         case ACTION_MEDICINE:
             if (success){
                 p->stat_state[STAT_HEALTH] = NORMAL_STATE;
+                p->since_last_change[STAT_HEALTH] = 0;
             }
             break;
         case ACTION_VET:
             if (success){
                 p->stat_state[STAT_HEALTH] = GOOD_STATE;
+                p->since_last_change[STAT_HEALTH] = 0;
             }   
             break;
         default:
