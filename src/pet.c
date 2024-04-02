@@ -24,7 +24,7 @@ void init_pet(pet *p)
         p->multiplier[i] = 0.1; /*Currently just set all to 0.1, will need to somehow randomise this or use template in future*/
         p->since_last_change[i] = 0;
     }
-    randomize_pet_display(p, EGG);
+    /*randomize_pet_display(p, EGG); */
 }
 
 void set_name(pet *p, char *name)
@@ -251,7 +251,7 @@ double calc_action_fail_chance(pet *p, action a)
 
 int calc_action(pet *p, action a)
 {
-    
+
     double randval;
     double failchance;
     double superchance;
@@ -273,7 +273,8 @@ int calc_action(pet *p, action a)
     }
 }
 
-void report_result(pet* p, action a, int success, char* actionresult, char* statusreport){
+void report_result(pet *p, action a, int success, char *actionresult, char *statusreport)
+{
     int i;
     int randval;
     int badcount;
@@ -281,19 +282,19 @@ void report_result(pet* p, action a, int success, char* actionresult, char* stat
 
     switch (success)
     {
-        case 0:
-            strcpy(actionresult, action_fail_messages[a]);
-            break;
-        case 1:
-            strcpy(actionresult, action_success_messages[a]);
-            break;
-        case 2:
-            strcpy(actionresult, action_super_messages[a]);
-            break;
-        default:
-            break;
+    case 0:
+        strcpy(actionresult, action_fail_messages[a]);
+        break;
+    case 1:
+        strcpy(actionresult, action_success_messages[a]);
+        break;
+    case 2:
+        strcpy(actionresult, action_super_messages[a]);
+        break;
+    default:
+        break;
     }
-    
+
     badcount = 0;
     for (i = 0; i < STAT_COUNT; i++)
     {
@@ -310,16 +311,20 @@ void report_result(pet* p, action a, int success, char* actionresult, char* stat
         }
     }
     /*otherwise report a random bad state*/
-    if (badcount) {
+    if (badcount)
+    {
         randval = rand() % badcount;
         strcpy(statusreport, bad_state_messages[badlist[randval]]);
-    } else {
+    }
+    else
+    {
         /*otherwise report a random stat other than growth*/
         randval = rand() % (STAT_COUNT - 1) + 1;
         if (p->stat_state[randval] == NORMAL_STATE)
         {
             strcpy(statusreport, normal_state_messages[randval]);
-        } else if (p->stat_state[randval] == GOOD_STATE)
+        }
+        else if (p->stat_state[randval] == GOOD_STATE)
         {
             strcpy(statusreport, good_state_messages[randval]);
         }

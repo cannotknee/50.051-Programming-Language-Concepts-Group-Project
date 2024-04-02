@@ -14,6 +14,10 @@ extern const int NAME_LENGTH;
 /*malloc and init new game*/
 void init_game(game *g, char *name);
 
+/* update the period of the day*/
+/* if it is the end of the day, calculate the states for next day*/
+void update_day(game *g);
+
 /*free game on exit to main menu*/
 void free_game(game *g);
 
