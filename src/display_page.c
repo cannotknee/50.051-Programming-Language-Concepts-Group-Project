@@ -32,8 +32,9 @@ void display_home(void)
             }
         }
     }
-    printf("4. Store\n");
-    printf("5. Save\n");
+    printf("11. Store\n");
+    printf("12. Settings\n");
+    printf("13. Save\n");
     printf("0. Exit\n");
     printf("\nEnter a number to select an option: ");
 }
@@ -52,8 +53,32 @@ void display_store(void)
     printf("\nEnter a number to select an option: ");
 }
 
+void display_confirmation(void)
+{
+    printf("Doing this will take up time, are you sure?\n");
+    printf("1. Yes\n");
+    printf("2. No\n");
+    printf("\nEnter a number to select an option: ");
+}
+
+void display_settings(void)
+{
+    printf("Settings\n");
+    if (global_game->action_confirmation == 1)
+    {
+        printf("1. disable action confirmation\n");
+    }
+    else
+    {
+        printf("1. enable action confirmation\n");
+    }
+    printf("0. Exit\n");
+    printf("\nEnter a number to select an option: ");
+}
+
 void display_pet_menu(void)
 {
+    printf("%d\n", global_game->action_confirmation);
     printf("This is the pet page     %s\n", global_game->period_of_day[global_game->part_of_day]);
     printf("1. Feed\n");
     printf("2. Play\n");

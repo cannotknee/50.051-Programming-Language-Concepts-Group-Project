@@ -25,6 +25,7 @@ void init_game(game *g, char *name)
     {
         g->pets_owned[i] = NULL;
     }
+    g->action_confirmation = 1;
 }
 
 void update_day(game *g)

@@ -8,7 +8,9 @@ typedef enum
     PAGE_STORE,
     PAGE_PET,
     PAGE_LOADGAME,
-    PAGE_SAVEGAME
+    PAGE_SAVEGAME,
+    PAGE_CONFIRMATION,
+    PAGE_SETTINGS
 } Page;
 /*Confirmation page where*/
 
@@ -24,8 +26,9 @@ typedef enum
     HOME_PET_1 = 1,
     HOME_PET_2 = 2,
     HOME_PET_3 = 3,
-    HOME_STORE = 4,
-    HOME_SAVE = 5,
+    HOME_STORE = 11,
+    HOME_SETTINGS = 12,
+    HOME_SAVE = 13,
     HOME_EXIT = 0
 } HomeOptions;
 
@@ -49,6 +52,18 @@ typedef enum
     PET_SEll = 7,
     PET_EXIT = 0
 } PetOptions;
+
+typedef enum
+{
+    YES = 1,
+    NO = 2
+} ConfirmationOptions;
+
+typedef enum
+{
+    ENABLE_DISABLE_CONFIRMATION = 1,
+    EXIT = 0
+} SettingsOptions;
 
 typedef enum
 {
@@ -108,7 +123,8 @@ typedef struct legame
     int actions;
     int money;
     int medicine_owned;
-    pet **pets_owned; /* store an array of pet that the player currently owns*/
+    int action_confirmation; /* if action_confirmation is true, enable the confirmation page*/
+    pet **pets_owned;        /* store an array of pet that the player currently owns*/
 } game;
 
 #endif

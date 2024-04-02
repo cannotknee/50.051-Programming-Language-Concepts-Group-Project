@@ -61,6 +61,10 @@ void handle_input(int input)
             curr_page = PAGE_MAIN;
             update_page = 1;
             break;
+        case HOME_SETTINGS:
+            curr_page = PAGE_SETTINGS;
+            update_page = 1;
+            break;
         default:
             printf("Invalid Input\n");
             break;
@@ -134,17 +138,38 @@ void handle_input(int input)
             break;
         case PET_PLAY:
             printf("Play\n");
-            update_day(global_game);
+            if (global_game->action_confirmation == 1)
+            {
+                curr_page = PAGE_CONFIRMATION;
+            }
+            else if (global_game->action_confirmation == 0)
+            {
+                update_day(global_game);
+            }
             update_page = 1;
             break;
         case PET_CLEAN:
             printf("Clean\n");
-            update_day(global_game);
+            if (global_game->action_confirmation == 1)
+            {
+                curr_page = PAGE_CONFIRMATION;
+            }
+            else if (global_game->action_confirmation == 0)
+            {
+                update_day(global_game);
+            }
             update_page = 1;
             break;
         case PET_TRAIN:
             printf("Train\n");
-            update_day(global_game);
+            if (global_game->action_confirmation == 1)
+            {
+                curr_page = PAGE_CONFIRMATION;
+            }
+            else if (global_game->action_confirmation == 0)
+            {
+                update_day(global_game);
+            }
             update_page = 1;
             break;
         case PET_SLEEP:
@@ -211,9 +236,52 @@ void handle_input(int input)
             }
             break;
         }
+        break;
+    case PAGE_CONFIRMATION:
+        switch (input)
+        {
+        case YES:
+            curr_page = PAGE_PET;
+            update_day(global_game);
+            update_page = 1;
+            break;
+        case NO:
+            curr_page = PAGE_PET;
+            update_page = 1;
+            break;
+        default:
+            printf("Invalid Input\n");
+            break;
+        }
+        break;
+    case PAGE_SETTINGS:
+        switch (input)
+        {
+        case ENABLE_DISABLE_CONFIRMATION:
+            if (global_game->action_confirmation == 1)
+            {
+                global_game->action_confirmation = 0;
+            }
+            else
+            {
+                global_game->action_confirmation = 1;
+            }
+            update_page = 1;
+            break;
+        case EXIT:
+            curr_page = PAGE_HOME;
+            update_page = 1;
+            break;
+        default:
+            printf("Invalid Input\n");
+            break;
+        }
+        break;
+    default:
+        printf("Error: This shouldn't be reachable\n");
+        break;
     }
 }
-
 void display_page(void)
 {
     switch (curr_page)
@@ -236,8 +304,14 @@ void display_page(void)
     case PAGE_SAVEGAME:
         display_savegame();
         break;
+    case PAGE_CONFIRMATION:
+        display_confirmation();
+        break;
+    case PAGE_SETTINGS:
+        display_settings();
+        break;
     default:
-        printf("B0rken Page\n");
+        printf("Broken Page\n");
         break;
     }
 }
