@@ -2,11 +2,11 @@
 #define _HAVE_MAIN
 
 const int BUFFER_SIZE = 256;
-const int STAT_COUNT = 6;
+const int STAT_COUNT = 5;
 const int NAME_LENGTH = 20;
 const int MAX_ACTIONS = 1;
 
-const double testpersonality[] = {0, 0.05, 0.05, 0.2, 0.3, 0.3};
+const double testpersonality[] = {0.05, 0.05, 0.2, 0.3, 0.3};
 
 /*result messages*/
 const char *action_fail_messages[] = {

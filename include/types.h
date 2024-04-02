@@ -66,15 +66,13 @@ typedef enum
     GOOD_STATE = 3
 } state;
 
-/*TODO remove growth and reorder stats for handle_action*/
 typedef enum
 {
-    STAT_GROWTH = 0,
-    STAT_HAPPINESS = 1,
-    STAT_HEALTH = 2,
-    STAT_CLEANLINESS = 3,
-    STAT_FATIGUE = 4,
-    STAT_HUNGER = 5
+    STAT_HAPPINESS = 0,
+    STAT_HEALTH = 1,
+    STAT_CLEANLINESS = 2,
+    STAT_FATIGUE = 3,
+    STAT_HUNGER = 4
 } stat;
 
 typedef enum
@@ -97,6 +95,9 @@ typedef struct lepet
     double *offsets;        /*for update_stat, calculated based on current state of other stats*/
     int *since_last_change; /*turns since last change*/
     char *display_filename;
+    level *growth;
+    int *exp;
+    int *value;
 } pet;
 
 typedef struct legame
