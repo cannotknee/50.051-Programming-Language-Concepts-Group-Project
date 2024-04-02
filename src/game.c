@@ -29,13 +29,13 @@ void init_game(game *g, char *name)
 
 void update_day(game *g)
 {
-    int i;
     if (g->part_of_day < 2)
     {
         g->part_of_day++;
     }
     else
     {
+        /* int i;*/
         /* for testing purposes, to check if the stats are updating properly*/
         /* we want to update the stats for the next day*/
         /*for (i = 0; i < 10; i++)
@@ -117,7 +117,7 @@ int save(game *g, int index)
     }
 
     /* Write game state to save file */
-    fprintf(file, "%d,%d,%d,%s\n", g->part_of_day, g->actions, g->money);
+    fprintf(file, "%d,%d,%d\n", g->part_of_day, g->actions, g->money);
 
     fclose(file);
     printf("Game saved successfully to slot %d.\n", index);

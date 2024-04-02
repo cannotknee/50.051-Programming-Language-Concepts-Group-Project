@@ -148,6 +148,6 @@ void randomize_pet_display(pet *p, level currlevel)
     }
 
     printf("Displaying pet image: %s\n", filename);
-    display_pet_image(p);
     p->display_filename = filename;
+    display_pet_image(p);
 }

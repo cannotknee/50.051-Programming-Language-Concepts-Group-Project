@@ -9,6 +9,8 @@
 
 void handle_input(int input)
 {
+    int i;
+    pet *newpet = NULL;
     switch (curr_page)
     {
     case PAGE_MAIN:
@@ -70,10 +72,8 @@ void handle_input(int input)
         switch (input)
         {
         case STORE_BUY_1:
-            int i;
             printf("Buy\n");
             /* TODO: initialize pet and store in pets_owned*/
-            pet *newpet;
             init_pet(newpet);
             set_name(newpet, "Pikachu");
             set_personality(newpet);
