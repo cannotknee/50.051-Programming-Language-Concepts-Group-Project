@@ -9,17 +9,60 @@
 
 void init_game(game *g, char *name)
 {
+    int i;
     g->name = malloc(strlen(name) + 1);
     strcpy(g->name, name);
-    g->day = 0;
+    g->part_of_day = 0;
+    g->period_of_day = (char **)malloc(4 * sizeof(char *));
+    g->period_of_day[0] = "Morning";
+    g->period_of_day[1] = "Afternoon";
+    g->period_of_day[2] = "Evening";
     g->actions = MAX_ACTIONS;
     g->money = 100;
     g->medicine_owned = 0;
+    g->pets_owned = (pet **)malloc(10 * sizeof(pet *));
+    for (i = 0; i < 10; i++)
+    {
+        g->pets_owned[i] = NULL;
+    }
+}
+
+void update_day(game *g)
+{
+    int i;
+    if (g->part_of_day < 2)
+    {
+        g->part_of_day++;
+    }
+    else
+    {
+        /* for testing purposes, to check if the stats are updating properly*/
+        /* we want to update the stats for the next day*/
+        /*for (i = 0; i < 10; i++)
+        {
+            if (g->pets_owned[i] != NULL)
+            {
+                printf("name: %s\n", g->pets_owned[i]->name);
+                printf("health: %d\n", g->pets_owned[i]->stat_state[STAT_HEALTH]);
+                printf("happiness: %d\n", g->pets_owned[i]->stat_state[STAT_HAPPINESS]);
+                printf("cleanliness: %d\n", g->pets_owned[i]->stat_state[STAT_CLEANLINESS]);
+                printf("fatigue: %d\n", g->pets_owned[i]->stat_state[STAT_FATIGUE]);
+                printf("hunger: %d\n", g->pets_owned[i]->stat_state[STAT_HUNGER]);
+            }
+        }*/
+        g->part_of_day = 0;
+    }
 }
 
 void free_game(game *g)
 {
+    int i;
     /*To check for any pet pointers and free them if necessary*/
+    for (i = 0; i < 10; i++)
+    {
+        free(g->pets_owned[i]);
+    }
+    free(g->period_of_day);
     free(g->name);
     free(g);
 }
@@ -66,7 +109,7 @@ int save(game *g, int index)
     }
 
     /* Check if game data and pet data are valid */
-    if (g == NULL || g->pet == NULL || g->pet->name == NULL || g->name == NULL)
+    if (g == NULL || g->pets_owned == NULL || g->name == NULL)
     {
         printf("Error: Invalid current game data. Please restart the game.\n");
         fclose(file);
@@ -74,7 +117,7 @@ int save(game *g, int index)
     }
 
     /* Write game state to save file */
-    fprintf(file, "%d,%d,%d,%s\n", g->day, g->actions, g->money, g->pet->name);
+    fprintf(file, "%d,%d,%d,%s\n", g->part_of_day, g->actions, g->money);
 
     fclose(file);
     printf("Game saved successfully to slot %d.\n", index);
@@ -85,6 +128,7 @@ int load(int index)
 {
     char filename[50];
     FILE *file;
+    int i;
 
     /* Declare variables at the beginning of the function */
     game *g;
@@ -110,8 +154,8 @@ int load(int index)
     }
 
     /* Allocate memory for pet structure within the game */
-    g->pet = (pet *)malloc(sizeof(pet));
-    if (g->pet == NULL)
+    g->pets_owned = (pet **)malloc(10 * sizeof(pet *)); /* currently set to a max of 10 pets*/
+    if (g->pets_owned == NULL)
     {
         printf("Error: Memory allocation failed for pet structure\n");
         fclose(file);
@@ -125,18 +169,24 @@ int load(int index)
     {
         printf("Error: Memory allocation failed for game name\n");
         fclose(file);
-        free(g->pet);
+        for (i = 0; i < 10; i++)
+        {
+            free(g->pets_owned[i]);
+        }
         free(g);
         return 0;
     }
 
     /* Read game state from save file */
-    if (fscanf(file, "%d,%d,%d,%s\n", &g->day, &g->actions, &g->money, g->name) != 4)
+    if (fscanf(file, "%d,%d,%d,%s\n", &g->part_of_day, &g->actions, &g->money, g->name) != 4)
     {
         printf("Error: Invalid file format in %s\n", filename);
         fclose(file);
         free(g->name);
-        free(g->pet);
+        for (i = 0; i < 10; i++)
+        {
+            free(g->pets_owned[i]);
+        }
         free(g);
         return 0;
     }

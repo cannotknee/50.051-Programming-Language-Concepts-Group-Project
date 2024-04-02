@@ -102,11 +102,12 @@ typedef struct lepet
 typedef struct legame
 {
     char *name;
-    int day;
+    int part_of_day;
+    char **period_of_day;
     int actions;
     int money;
     int medicine_owned;
-    pet *pet;
+    pet **pets_owned; /* store an array of pet that the player currently owns*/
 } game;
 
 #endif

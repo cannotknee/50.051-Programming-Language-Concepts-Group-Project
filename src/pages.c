@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pages.h"
 #include "display_page.h"
+#include "pet.h"
 #include "game.h"
 
 void handle_input(int input)
@@ -69,7 +70,32 @@ void handle_input(int input)
         switch (input)
         {
         case STORE_BUY_1:
+            int i;
             printf("Buy\n");
+            /* TODO: initialize pet and store in pets_owned*/
+            pet *newpet;
+            init_pet(newpet);
+            set_name(newpet, "Pikachu");
+            set_personality(newpet);
+
+            if (global_game->money >= 50)
+            {
+                global_game->money -= 50;
+                for (i = 0; i < 10; i++)
+                {
+                    if (global_game->pets_owned[i] == NULL)
+                    {
+                        global_game->pets_owned[i] = newpet;
+                        update_page = 1;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                printf("Not enough money!\n");
+            }
+
             break;
         case STORE_BUY_2:
             printf("Buy\n");
@@ -108,12 +134,18 @@ void handle_input(int input)
             break;
         case PET_PLAY:
             printf("Play\n");
+            update_day(global_game);
+            update_page = 1;
             break;
         case PET_CLEAN:
             printf("Clean\n");
+            update_day(global_game);
+            update_page = 1;
             break;
         case PET_TRAIN:
             printf("Train\n");
+            update_day(global_game);
+            update_page = 1;
             break;
         case PET_SLEEP:
             printf("Sleep\n");

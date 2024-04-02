@@ -20,11 +20,18 @@ void display_main(void)
 
 void display_home(void)
 {
+    int i;
     printf("This is the home page\n");
-    /* TODO: Print pet names dynamically */
-    printf("1. Pet 1\n");
-    printf("2. Pet 2\n");
-    printf("3. Pet 3\n");
+    if (global_game->pets_owned != NULL)
+    {
+        for (i = 0; i < 10; i++)
+        {
+            if (global_game->pets_owned[i] != NULL)
+            {
+                printf("%d. %s\n", i + 1, global_game->pets_owned[i]->name);
+            }
+        }
+    }
     printf("4. Store\n");
     printf("5. Save\n");
     printf("0. Exit\n");
@@ -34,9 +41,10 @@ void display_home(void)
 void display_store(void)
 {
     printf("This is the store page      ");
-    printf("Currency: %d\n", global_game->money);
+    printf("Currency: %d     ", global_game->money);
+    printf("%s\n", global_game->period_of_day[global_game->part_of_day]);
 
-    printf("1. Buy\n");
+    printf("1. Pikachu\n");
     printf("2. Buy\n");
     printf("3. Buy\n");
     printf("4. Buy Medicine   (currently owned: %d)\n", global_game->medicine_owned);
@@ -46,13 +54,13 @@ void display_store(void)
 
 void display_pet_menu(void)
 {
-    printf("This is the pet page\n");
+    printf("This is the pet page     %s\n", global_game->period_of_day[global_game->part_of_day]);
     printf("1. Feed\n");
     printf("2. Play\n");
     printf("3. Clean\n");
     printf("4. Train\n");
     printf("5. Sleep\n");
-    printf("6. Medicine   (currently owned: %d)\n", global_game->medicine_owned);
+    printf("6. Medicine   (currently owned: %d)\n", global_game->medicine_owned); /* for testing purposes only, since feeding medicine is a free action*/
     printf("7. Sell\n");
     printf("0. Exit\n");
     printf("\nEnter a number to select an option: ");
