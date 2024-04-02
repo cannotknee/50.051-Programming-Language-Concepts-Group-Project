@@ -6,7 +6,8 @@ const int STAT_COUNT = 5;
 const int NAME_LENGTH = 20;
 const int MAX_ACTIONS = 1;
 
-const double testpersonality[] = {0.05, 0.05, 0.2, 0.3, 0.3};
+/*Happiness, Health, Cleanliness, Fatigue, Hunger*/
+const double testpersonality[] = {0.05, 0.05, 0.2, 0.5, 0.5};
 
 /*result messages*/
 const char *action_fail_messages[] = {
@@ -33,11 +34,10 @@ const char *action_super_messages[] = {
     "It is now sparkling clean",
     "It learned something new and is already demonstrating it",
     "It seems like it had a nice dream",
-    "It seems to be feeling much better",
+    "Error: This action should not have super success",
     "Error: This action should not have super success"};
 
 const char *danger_state_messages[] = {
-    "Insert growth adult state message",
     "Insert happiness danger state message",
     "Insert health danger state message",
     "Insert cleanliness danger state message",
@@ -46,7 +46,6 @@ const char *danger_state_messages[] = {
 };
 
 const char *bad_state_messages[] = {
-    "Insert growth young state message",
     "Insert happiness bad state message",
     "Insert health bad state message",
     "Insert cleanliness bad state message",
@@ -55,7 +54,6 @@ const char *bad_state_messages[] = {
 };
 
 const char *normal_state_messages[] = {
-    "Insert growth baby state message",
     "Insert happiness normal state message",
     "Insert health normal state message",
     "Insert cleanliness normal state message",
@@ -64,7 +62,6 @@ const char *normal_state_messages[] = {
 };
 
 const char *good_state_messages[] = {
-    "Insert growth egg state message",
     "Insert happiness good state message",
     "Insert health good state message",
     "Insert cleanliness good state message",

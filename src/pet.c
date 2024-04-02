@@ -39,6 +39,8 @@ void set_personality(pet *p)
 {
     /*TODO introduce random choice and more templates, currently only using 1 test template*/
     set_multipliers(p, testpersonality);
+    /*TODO include value in personality, easy, medium hard???*/
+    p->value = 10;
 }
 
 void set_multipliers(pet *p, const double *template)
@@ -102,35 +104,69 @@ void update_offsets(pet *p)
     }
 }
 
-int update_all_stats(pet *p)
+int update_all_stats(pet *p, char *actionresult, char *statusreport)
 {
+    /*Stat update*/
     int i;
     int updated;
-    update_offsets(p);
-    /*TODO implement exp and growth*/
-    for (i = 0; i < STAT_COUNT; i++)
-    {
-        if (p->stat_state[i] == DANGER_STATE)
+    if(p->growth != EGG){
+        for (i = 0; i < STAT_COUNT; i++)
         {
-            /*pet dies if left in danger state for more than 2 turns*/
-            if (p->since_last_change[i] > 1)
+            if (p->stat_state[i] == DANGER_STATE)
             {
-                return 1;
-            }
-            p->since_last_change[i]++;
-        }
-        else
-        {
-            updated = update_stat(&p->stat_state[i], p->since_last_change[i], p->multiplier[i], p->offsets[i]);
-            if (updated)
+                /*pet dies if left in danger state for more than 2 turns*/
+                if (p->since_last_change[i] > 1)
+                {
+                    return 1;
+                }
+                p->since_last_change[i]++;
+            }else if (p->stat_name[i] == STAT_FATIGUE)
             {
-                p->since_last_change[i] = 0;
+                handle_action(p, ACTION_SLEEP, actionresult, statusreport);
             }
+            
             else
             {
-                p->since_last_change[i]++;
+                updated = update_stat(&p->stat_state[i], p->since_last_change[i], p->multiplier[i], p->offsets[i]);
+                if (updated)
+                {
+                    p->since_last_change[i] = 0;
+                }
+                else
+                {
+                    p->since_last_change[i]++;
+                }
             }
         }
+        update_offsets(p);
+    }
+
+    /*growth update*/
+    p->exp++;
+    /*TODO Growth message*/
+    switch (p->growth){
+        case EGG:
+            if (p->exp > 3){
+                p->growth = BABY;
+                p->exp -= 3;
+            }
+            break;
+        case BABY:
+            if (p->exp > 15){
+                p->growth = YOUNG;
+                p->exp -= 15;
+            }
+            break;
+        case YOUNG:
+            if (p->exp > 40){
+                p->growth = ADULT;
+                p->exp -= 40;
+            }
+            break;
+        case ADULT: 
+            break;
+        default:
+            break;
     }
     return 0;
 }
@@ -337,6 +373,90 @@ void report_result(pet *p, action a, int success, char *actionresult, char *stat
             strcpy(statusreport, good_state_messages[randval]);
         }
     }
+}
+
+void handle_action(pet *p, action a, char *actionresult, char *statusreport){
+    int success;
+
+    success = calc_action(p, a);
+    
+    switch (a){
+        case ACTION_FEED:
+            if (success){
+                if(success == 2){
+                    if (p->stat_state[STAT_HUNGER] == DANGER_STATE){
+                        p->stat_state[STAT_HUNGER] = GOOD_STATE;
+                    }
+                } 
+                if (p->stat_state[STAT_HUNGER] == BAD_STATE){
+                    p->stat_state[STAT_HUNGER] = GOOD_STATE;
+                }else if (p->stat_state[STAT_HUNGER] == NORMAL_STATE){
+                    p->stat_state[STAT_HUNGER] = GOOD_STATE;
+                }  
+            }
+            break;
+        case ACTION_PLAY:
+            if (success){
+
+                if(success == 2){
+                    
+                }   
+            }
+            break;
+        case ACTION_BATHE:
+            if (success){
+                if (p->stat_state[STAT_CLEANLINESS] == DANGER_STATE){
+                    if(success == 2){
+                        p->stat_state[STAT_CLEANLINESS] = GOOD_STATE;
+                    }else {
+                        p->stat_state[STAT_CLEANLINESS] = NORMAL_STATE;
+                    }   
+                } else if (p->stat_state[STAT_CLEANLINESS] == BAD_STATE)
+                {
+                    p->stat_state[STAT_CLEANLINESS] = GOOD_STATE;
+                } else if (p->stat_state[STAT_CLEANLINESS] == NORMAL_STATE)
+                {
+                    p->stat_state[STAT_CLEANLINESS] = GOOD_STATE;
+                }
+            }
+            break;
+        case ACTION_TRAIN:
+            if (success){
+
+                if(success == 2){
+                    
+                }   
+            }
+            break;
+        case ACTION_SLEEP:
+            if (success){
+                if (p->stat_state[STAT_FATIGUE] == DANGER_STATE){
+                    p->stat_state[STAT_FATIGUE] = BAD_STATE;
+                } else if (p->stat_state[STAT_FATIGUE] == BAD_STATE)
+                {
+                    p->stat_state[STAT_FATIGUE] = NORMAL_STATE;
+                }
+                
+                if(success == 2){
+                    p->stat_state[STAT_FATIGUE] = GOOD_STATE;
+                }   
+            }
+            break;
+        case ACTION_MEDICINE:
+            if (success){
+                p->stat_state[STAT_HEALTH] = NORMAL_STATE;
+            }
+            break;
+        case ACTION_VET:
+            if (success){
+                p->stat_state[STAT_HEALTH] = GOOD_STATE;
+            }   
+            break;
+        default:
+            break;    
+    }
+    
+    report_result(p, a, success, actionresult, statusreport);
 }
 
 
