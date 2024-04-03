@@ -37,10 +37,12 @@ int main1(int argc, char *argv[])
 /*for testing purposes*/
 int main(int argc, char *argv[])
 {
-    pet *newpet;
+    pet *newpet = (pet *)malloc(sizeof(pet));
+
     init_pet(newpet);
-    print_stats(newpet);
+    /*print_stats(newpet);*/
     printf("We got here yay\n");
     set_name(newpet, "TestPet");
+    free(newpet);
     return 0;
 }
