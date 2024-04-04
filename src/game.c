@@ -17,48 +17,40 @@ void init_game(game *g, char *name)
     g->period_of_day[0] = "Morning";
     g->period_of_day[1] = "Afternoon";
     g->period_of_day[2] = "Evening";
+    g->period_of_day[3] = "Night";
     g->actions = MAX_ACTIONS;
     g->money = 100;
     g->medicine_owned = 0;
-    g->pets_owned = (pet **)malloc(10 * sizeof(pet *));
-    for (i = 0; i < 10; i++)
+    g->pets_owned = (pet **)malloc(MAX_PETS * sizeof(pet *));
+    for (i = 0; i < MAX_PETS; i++)
     {
         g->pets_owned[i] = NULL;
     }
+    g->action_confirmation = 1;
 }
 
 void update_day(game *g)
 {
-    if (g->part_of_day < 2)
+    if (g->part_of_day < 3)
     {
         g->part_of_day++;
     }
     else
     {
-        /* int i;*/
-        /* for testing purposes, to check if the stats are updating properly*/
-        /* we want to update the stats for the next day*/
-        /*for (i = 0; i < 10; i++)
-        {
-            if (g->pets_owned[i] != NULL)
-            {
-                printf("name: %s\n", g->pets_owned[i]->name);
-                printf("health: %d\n", g->pets_owned[i]->stat_state[STAT_HEALTH]);
-                printf("happiness: %d\n", g->pets_owned[i]->stat_state[STAT_HAPPINESS]);
-                printf("cleanliness: %d\n", g->pets_owned[i]->stat_state[STAT_CLEANLINESS]);
-                printf("fatigue: %d\n", g->pets_owned[i]->stat_state[STAT_FATIGUE]);
-                printf("hunger: %d\n", g->pets_owned[i]->stat_state[STAT_HUNGER]);
-            }
-        }*/
-        g->part_of_day = 0;
+        printf("Error: This should not be reachable, day updated when should have blocked due to no actions left\n");
     }
+}
+
+void end_day(game *g)
+{
+    g->part_of_day = 0;
 }
 
 void free_game(game *g)
 {
     int i;
     /*To check for any pet pointers and free them if necessary*/
-    for (i = 0; i < 10; i++)
+    for (i = 0; i < MAX_PETS; i++)
     {
         free(g->pets_owned[i]);
     }
@@ -154,7 +146,7 @@ int load(int index)
     }
 
     /* Allocate memory for pet structure within the game */
-    g->pets_owned = (pet **)malloc(10 * sizeof(pet *)); /* currently set to a max of 10 pets*/
+    g->pets_owned = (pet **)malloc(MAX_PETS * sizeof(pet *)); /* currently set to a max of 5 pets*/
     if (g->pets_owned == NULL)
     {
         printf("Error: Memory allocation failed for pet structure\n");
@@ -169,7 +161,7 @@ int load(int index)
     {
         printf("Error: Memory allocation failed for game name\n");
         fclose(file);
-        for (i = 0; i < 10; i++)
+        for (i = 0; i < MAX_PETS; i++)
         {
             free(g->pets_owned[i]);
         }
@@ -183,7 +175,7 @@ int load(int index)
         printf("Error: Invalid file format in %s\n", filename);
         fclose(file);
         free(g->name);
-        for (i = 0; i < 10; i++)
+        for (i = 0; i < MAX_PETS; i++)
         {
             free(g->pets_owned[i]);
         }

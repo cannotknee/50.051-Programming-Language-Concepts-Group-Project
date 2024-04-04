@@ -19,6 +19,10 @@ extern const char *normal_state_messages[];
 
 extern const char *good_state_messages[];
 
+extern const char *meme_egg_actions[];
+
+extern pet *current_pet;
+
 /*malloc for pet attributes and init everything but name*/
 void init_pet(pet *p);
 
@@ -28,7 +32,7 @@ void free_pet(pet *p);
 /*Set name of pet*/
 void set_name(pet *p, char *name);
 
-/*Chooses random personality template, TO DO currently only uses test template*/
+/*Chooses random personality template, TO DO currently only uses test template, also to set pet value according to chosen template*/
 void set_personality(pet *p);
 
 /*Set multipliers based on personality template, to be used by choose_personality*/
@@ -44,7 +48,7 @@ void update_offsets(pet *p);
 /*Update all stats on turn end*/
 /*also handles updating the since_last_change attribute*/
 /*Returns 0 by default, return 1 if pet died*/
-int update_all_stats(pet *p);
+int update_all_stats(pet *p, char *actionresult, char *statusreport);
 
 /*Calculate chances for super success*/
 double calc_action_super_chance(pet *p, action a);
@@ -60,7 +64,7 @@ int calc_action(pet *p, action a);
 void report_result(pet *p, action a, int success, char *actionresult, char *statusreport);
 
 /*Calculates success of action and updates the state and result*/
-void handle_action(pet *p, action a, int success, char *actionresult, char *statusreport);
+void handle_action(pet *p, action a, char *actionresult, char *statusreport);
 
 /*test funcs*/
 void reset_pet(pet *p);

@@ -8,6 +8,7 @@
 extern const int MAX_ACTIONS;
 extern game *global_game;
 extern const int NAME_LENGTH;
+extern const int MAX_PETS;
 
 /*maybe we define a directory here as a constant to use for save files?*/
 
@@ -15,8 +16,10 @@ extern const int NAME_LENGTH;
 void init_game(game *g, char *name);
 
 /* update the period of the day*/
-/* if it is the end of the day, calculate the states for next day*/
 void update_day(game *g);
+
+/*Reset the day*/
+void end_day(game *g);
 
 /*free game on exit to main menu*/
 void free_game(game *g);

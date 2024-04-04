@@ -4,10 +4,13 @@
 
 #include "types.h"
 #include "pages.h"
+#include "pet.h"
 #include "main.h"
 
 int main(int argc, char *argv[])
 {
+    actionresult = (char *)malloc(255 * sizeof(char));
+    statusreport = (char *)malloc(255 * sizeof(char));
 
     while (running)
     {
@@ -17,12 +20,24 @@ int main(int argc, char *argv[])
             display_page();
             update_page = 0;
         }
+        if(display_report)
+        {
+            printf("====================================================\n");
+            printf("%s\n", actionresult);
+            printf("%s\n", statusreport);
+            display_report = 0;
+        }
+        printf("====================================================\n");
+        printf("\nEnter a number to select an option: ");
 
         fgets(input, BUFFER_SIZE, stdin);
         sscanf(input, "%d", &input_buffer);
 
         handle_input(input_buffer);
     }
+
+    free(actionresult);
+    free(statusreport);
     printf("Goodbye\n");
 
     exit(0);
@@ -31,6 +46,12 @@ int main(int argc, char *argv[])
 /*for testing purposes*/
 int main1(int argc, char *argv[])
 {
+    pet *newpet = (pet *)malloc(sizeof(pet));
 
+    init_pet(newpet);
+    /*print_stats(newpet);*/
+    printf("We got here yay\n");
+    set_name(newpet, "TestPet");
+    free(newpet);
     return 0;
 }

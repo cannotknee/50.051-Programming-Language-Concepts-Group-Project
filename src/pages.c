@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "types.h"
 #include "pages.h"
@@ -10,7 +11,8 @@
 void handle_input(int input)
 {
     int i;
-    pet *newpet = NULL;
+    int died;
+    pet *newpet;
     switch (curr_page)
     {
     case PAGE_MAIN:
@@ -31,7 +33,7 @@ void handle_input(int input)
             running = 0;
             break;
         default:
-            printf("Invalid Input\n");
+            display_invalid_input();
             break;
         }
         break;
@@ -39,17 +41,54 @@ void handle_input(int input)
         switch (input)
         {
         case HOME_PET_1:
+            current_pet = global_game->pets_owned[0];
+            if (!pet_exist(current_pet))
+            {
+                update_page = 1;
+                break;
+            }
             curr_page = PAGE_PET;
             update_page = 1;
             break;
         case HOME_PET_2:
+            current_pet = global_game->pets_owned[1];
+            if (!pet_exist(current_pet))
+            {
+                update_page = 1;
+                break;
+            }
             curr_page = PAGE_PET;
             update_page = 1;
             break;
         case HOME_PET_3:
+            current_pet = global_game->pets_owned[2];
+            if (!pet_exist(current_pet))
+            {
+                update_page = 1;
+                break;
+            }
             curr_page = PAGE_PET;
             update_page = 1;
-
+            break;
+        case HOME_PET_4:
+            current_pet = global_game->pets_owned[3];
+            if (!pet_exist(current_pet))
+            {
+                update_page = 1;
+                break;
+            }
+            curr_page = PAGE_PET;
+            update_page = 1;
+            break;
+        case HOME_PET_5:
+            current_pet = global_game->pets_owned[4];
+            if (!pet_exist(current_pet))
+            {
+                update_page = 1;
+                break;
+            }
+            curr_page = PAGE_PET;
+            update_page = 1;
             break;
         case HOME_STORE:
             curr_page = PAGE_STORE;
@@ -59,12 +98,30 @@ void handle_input(int input)
             curr_page = PAGE_SAVEGAME;
             update_page = 1;
             break;
+        case HOME_END_DAY:
+            end_day(global_game);
+            /*TODO Death/game over function
+            /*TODO daily report thingy for all pets instead of just last pet*/
+            for (i = 0; i < MAX_PETS; i++)
+            {
+                if (global_game->pets_owned[i] != NULL)
+                {
+                    died = update_all_stats(global_game->pets_owned[i], actionresult, statusreport);
+                }
+            }
+            update_page = 1;
+            display_report = 1;
+            break;
         case HOME_EXIT:
             curr_page = PAGE_MAIN;
             update_page = 1;
             break;
+        case HOME_SETTINGS:
+            curr_page = PAGE_SETTINGS;
+            update_page = 1;
+            break;
         default:
-            printf("Invalid Input\n");
+            display_invalid_input();
             break;
         }
         break;
@@ -72,28 +129,32 @@ void handle_input(int input)
         switch (input)
         {
         case STORE_BUY_1:
-            printf("Buy\n");
             /* TODO: initialize pet and store in pets_owned*/
+            newpet = (pet *)malloc(sizeof(pet));
             init_pet(newpet);
             set_name(newpet, "Pikachu");
             set_personality(newpet);
-
             if (global_game->money >= 50)
             {
                 global_game->money -= 50;
-                for (i = 0; i < 10; i++)
+                for (i = 0; i < MAX_PETS; i++)
                 {
                     if (global_game->pets_owned[i] == NULL)
                     {
                         global_game->pets_owned[i] = newpet;
                         update_page = 1;
+                        strcpy(actionresult, "You have successfully bought pikachu");
+                        strcpy(statusreport, "Now just to wait for it to hatch");
+                        display_report = 1;
                         break;
                     }
                 }
             }
             else
             {
-                printf("Not enough money!\n");
+                strcpy(actionresult, "Not enough money");
+                strcpy(statusreport, "Lowly peasant");
+                display_report = 1;
             }
 
             break;
@@ -113,7 +174,9 @@ void handle_input(int input)
             }
             else
             {
-                printf("Not enough money!\n");
+                strcpy(actionresult, "Not enough money");
+                strcpy(statusreport, "Lowly peasant");
+                display_report = 1;
             }
 
             break;
@@ -122,55 +185,54 @@ void handle_input(int input)
             update_page = 1;
             break;
         default:
-            printf("Invalid Input\n");
+            display_invalid_input();
             break;
         }
         break;
     case PAGE_PET:
+
+        if (day_check() && input != PET_EXIT)
+        {
+            break;
+        }
+        /*TODO select pet, currently default pet at index 0*/
         switch (input)
         {
         case PET_FEED:
-            printf("Feed\n");
+            generic_action(current_pet, ACTION_FEED);
             break;
         case PET_PLAY:
-            printf("Play\n");
-            update_day(global_game);
-            update_page = 1;
+            generic_action(current_pet, ACTION_PLAY);
             break;
         case PET_CLEAN:
-            printf("Clean\n");
-            update_day(global_game);
-            update_page = 1;
+            generic_action(current_pet, ACTION_BATHE);
             break;
         case PET_TRAIN:
-            printf("Train\n");
-            update_day(global_game);
-            update_page = 1;
-            break;
-        case PET_SLEEP:
-            printf("Sleep\n");
+            generic_action(current_pet, ACTION_TRAIN);
             break;
         case PET_MEDICINE:
             if (global_game->medicine_owned > 0)
             {
                 global_game->medicine_owned--;
-                update_page = 1;
+                generic_action(current_pet, ACTION_MEDICINE);
             }
             else
             {
-                printf("No medicine!\n");
+                strcpy(actionresult, "No Medicine");
+                strcpy(statusreport, "Go buy some in the store");
+                display_report = 1;
             }
 
             break;
         case PET_SEll:
-            printf("Sell\n");
+            printf("Sell not implemented yet\n");
             break;
         case PET_EXIT:
             curr_page = PAGE_HOME;
             update_page = 1;
             break;
         default:
-            printf("Invalid Input\n");
+            display_invalid_input();
             break;
         }
         break;
@@ -190,7 +252,7 @@ void handle_input(int input)
             }
             else
             {
-                printf("Invalid Input\n");
+                display_invalid_input();
             }
             break;
         }
@@ -211,9 +273,52 @@ void handle_input(int input)
             }
             break;
         }
+        break;
+    case PAGE_CONFIRMATION:
+        switch (input)
+        {
+        case YES:
+            curr_page = PAGE_PET;
+            update_day(global_game);
+            update_page = 1;
+            break;
+        case NO:
+            curr_page = PAGE_PET;
+            update_page = 1;
+            break;
+        default:
+            display_invalid_input();
+            break;
+        }
+        break;
+    case PAGE_SETTINGS:
+        switch (input)
+        {
+        case ENABLE_DISABLE_CONFIRMATION:
+            if (global_game->action_confirmation == 1)
+            {
+                global_game->action_confirmation = 0;
+            }
+            else
+            {
+                global_game->action_confirmation = 1;
+            }
+            update_page = 1;
+            break;
+        case EXIT:
+            curr_page = PAGE_HOME;
+            update_page = 1;
+            break;
+        default:
+            display_invalid_input();
+            break;
+        }
+        break;
+    default:
+        printf("Error: This shouldn't be reachable\n");
+        break;
     }
 }
-
 void display_page(void)
 {
     switch (curr_page)
@@ -236,8 +341,57 @@ void display_page(void)
     case PAGE_SAVEGAME:
         display_savegame();
         break;
+    case PAGE_CONFIRMATION:
+        display_confirmation();
+        break;
+    case PAGE_SETTINGS:
+        display_settings();
+        break;
     default:
-        printf("B0rken Page\n");
+        printf("Broken Page\n");
         break;
     }
+}
+
+int day_check()
+{
+    if (global_game->part_of_day > 2)
+    {
+        strcpy(actionresult, "It is too late to do anything, wait until tomorrow");
+        update_page = 1;
+        display_report = 1;
+        return 1;
+    }
+    return 0;
+}
+
+void generic_action(pet *p, action action)
+{
+    handle_action(p, action, actionresult, statusreport);
+    update_day(global_game);
+    update_page = 1;
+    display_report = 1;
+}
+
+int pet_exist(pet *p)
+{
+    if (p == NULL)
+    {
+        strcpy(actionresult, "No pet to perform action on");
+        strcpy(statusreport, "Go buy one in the store");
+        display_report = 1;
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
+
+void display_invalid_input()
+{
+    strcpy(actionresult, "Invalid Input");
+    strcpy(statusreport, "Please key in one of the available options");
+    display_report = 1;
+    update_page = 1;
 }
