@@ -8,7 +8,6 @@ extern Page curr_page;
 extern char *actionresult;
 extern char *statusreport;
 
-extern const char *meme_egg_actions[];
 
 /* Either sets curr_page to next page to be displayed or calls appropriate functions to handle input or both */
 void handle_input(int input);
