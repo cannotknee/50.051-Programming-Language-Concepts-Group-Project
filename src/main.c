@@ -7,7 +7,7 @@
 #include "pet.h"
 #include "main.h"
 
-int main1(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
     actionresult = (char *)malloc(255 * sizeof(char));
     statusreport = (char *)malloc(255 * sizeof(char));
@@ -35,7 +35,7 @@ int main1(int argc, char *argv[])
 }
 
 /*for testing purposes*/
-int main(int argc, char *argv[])
+int main1(int argc, char *argv[])
 {
     pet *newpet = (pet *)malloc(sizeof(pet));
 

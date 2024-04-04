@@ -79,7 +79,6 @@ void display_settings(void)
 
 void display_pet_menu(void)
 {
-    printf("%d\n", global_game->action_confirmation);
     printf("This is the pet page     %s\n", global_game->period_of_day[global_game->part_of_day]);
     printf("1. Feed\n");
     printf("2. Play\n");

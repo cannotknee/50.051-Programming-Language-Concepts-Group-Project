@@ -61,7 +61,6 @@ void handle_input(int input)
             break;
         case HOME_END_DAY:
             end_day(global_game);
-            printf("after end day\n");
             /*TODO if multiple pets are to be implemented, need a way to cycle through them and update all stats for all*/
             died = update_all_stats(global_game->pets_owned[0], actionresult, statusreport);
             if (died)
@@ -93,6 +92,7 @@ void handle_input(int input)
         {
         case STORE_BUY_1:
             /* TODO: initialize pet and store in pets_owned*/
+            newpet = (pet *)malloc(sizeof(pet));
             init_pet(newpet);
             set_name(newpet, "Pikachu");
             set_personality(newpet);
@@ -104,7 +104,7 @@ void handle_input(int input)
                     if (global_game->pets_owned[i] == NULL)
                     {
                         global_game->pets_owned[i] = newpet;
-                        /*update_page = 1;*/
+                        update_page = 1;
                         break;
                     }
                 }

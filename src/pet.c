@@ -28,25 +28,12 @@ void init_pet(pet *p)
     p->exp = (int *)malloc(sizeof(int));
     p->value = (int *)malloc(sizeof(int));
     /*randomize_pet_display(p, EGG); */
-    p->growth = EGG;
-    printf("pet initialised\n");
-    print_stats(p);
+    *p->growth = EGG;
 }
 
 void set_name(pet *p, char *name)
 {
-    printf("setting name\n");
     strcpy(p->name, name);
-    /*int i;
-    int length = strlen(name);
-    for (i = 0; i < length; i++)
-    {
-        p->name[i] = name[i];
-    }
-    p->name[length] = '\0';*/
-    printf("name set\n");
-    printf("name: %s\n", p->name);
-    print_stats(p);
 }
 
 void set_personality(pet *p)
@@ -123,8 +110,8 @@ int update_all_stats(pet *p, char *actionresult, char *statusreport)
     /*Stat update*/
     int i;
     int updated;
-    if (p->growth != EGG)
-    {
+    if (*p->growth != EGG)
+    { 
         for (i = 0; i < STAT_COUNT; i++)
         {
             if (p->stat_state[i] == DANGER_STATE)
