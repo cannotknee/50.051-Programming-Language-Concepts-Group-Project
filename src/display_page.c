@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include<string.h>
 
 #include "types.h"
 #include "display_page.h"
@@ -141,26 +142,26 @@ void display_pet_image(pet *p)
 /* randomize pet display image on level change */
 void randomize_pet_display(pet *p, level currlevel)
 {
-    char filename[256]; /* Assuming a maximum filename length of 20 characters */
+    char filename[MAX_FILENAME_LENGTH];
     if (currlevel == EGG)
     {
         int rand_int = (rand() % NUM_EGG_STAGE_FILES) + 1;
-        sprintf(filename, "image/%s_%d.txt", EGG_STAGE_FILE, rand_int);
+        snprintf(filename, MAX_FILENAME_LENGTH, "image/egg_display_%d.txt", rand_int);
     }
     else if (currlevel == BABY)
     {
         int rand_int = (rand() % NUM_BABY_STAGE_FILES) + 1;
-        sprintf(filename, "image/%s_%d.txt", BABY_STAGE_FILE, rand_int);
+        snprintf(filename, MAX_FILENAME_LENGTH, "image/baby_display_%d.txt", rand_int);
     }
     else if (currlevel == YOUNG)
     {
         int rand_int = (rand() % NUM_YOUNG_STAGE_FILES) + 1;
-        sprintf(filename, "image/%s_%d.txt", YOUNG_STAGE_FILE, rand_int);
+        snprintf(filename, MAX_FILENAME_LENGTH, "image/young_display_%d.txt", rand_int);
     }
     else if (currlevel == ADULT)
     {
         int rand_int = (rand() % NUM_ADULT_STAGE_FILES) + 1;
-        sprintf(filename, "image/%s_%d.txt", ADULT_STAGE_FILE, rand_int);
+        snprintf(filename, MAX_FILENAME_LENGTH, "image/adult_display_%d.txt", rand_int);
     }
     else
     {
@@ -168,7 +169,5 @@ void randomize_pet_display(pet *p, level currlevel)
         return;
     }
 
-    printf("Displaying pet image: %s\n", filename);
-    display_pet_image(p);
-    p->display_filename = filename;
+    strcpy(p->display_filename, filename);
 }

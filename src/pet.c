@@ -9,7 +9,6 @@
 void init_pet(pet *p)
 {
     int i;
-
     p->name = (char *)malloc(NAME_LENGTH * sizeof(char));
     p->stat_name = (stat *)malloc(STAT_COUNT * sizeof(stat));
     p->stat_state = (state *)malloc(STAT_COUNT * sizeof(state));

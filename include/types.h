@@ -1,6 +1,8 @@
 #ifndef _HAVE_TYPES
 #define _HAVE_TYPES
 
+#define MAX_FILENAME_LENGTH 30
+
 typedef enum
 {
     PAGE_MAIN,
@@ -111,7 +113,7 @@ typedef struct lepet
     double *multiplier;     /*for calculations of state transition, basically personality*/
     double *offsets;        /*for update_stat, calculated based on current state of other stats*/
     int *since_last_change; /*turns since last change*/
-    char *display_filename;
+    char display_filename[MAX_FILENAME_LENGTH];
     level *growth;
     int *exp;
     int *value;
