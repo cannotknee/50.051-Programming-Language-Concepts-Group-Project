@@ -23,7 +23,7 @@ void display_home(void)
     printf("This is the home page\n");
     if (global_game->pets_owned != NULL)
     {
-        for (i = 0; i < 10; i++)
+        for (i = 0; i < MAX_PETS; i++)
         {
             if (global_game->pets_owned[i] != NULL)
             {

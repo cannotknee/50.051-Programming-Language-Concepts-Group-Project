@@ -5,6 +5,9 @@ const int BUFFER_SIZE = 256;
 const int STAT_COUNT = 5;
 const int NAME_LENGTH = 255;
 const int MAX_ACTIONS = 1;
+const int MAX_PETS = 5;
+
+pet *current_pet = NULL;
 
 /*Happiness, Health, Cleanliness, Fatigue, Hunger*/
 const double testpersonality[] = {0.05, 0.05, 0.2, 0.5, 0.5};
@@ -76,12 +79,11 @@ const char *meme_egg_actions[] = {
     "Your egg learned to......sit there. Good job.",
     "Error: this should not be reachable, check meme_egg_actions",
     "That won't make it hatch any faster, this isn't lab-grown or anything",
-    "The vet thanks you for the free cash"
-};
+    "The vet thanks you for the free cash"};
 
 /* global vars */
-int running = 1;     /*set to 0 to break loop and exit game*/
-int update_page = 1; /*Used to indicate if the terminal should be cleared and page refreshed/updated/changed*/
+int running = 1;        /*set to 0 to break loop and exit game*/
+int update_page = 1;    /*Used to indicate if the terminal should be cleared and page refreshed/updated/changed*/
 int display_report = 0; /*Used to indicate if the status report should be displayed*/
 int input_buffer;
 char input[256];

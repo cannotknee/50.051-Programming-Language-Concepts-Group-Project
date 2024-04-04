@@ -21,8 +21,8 @@ void init_game(game *g, char *name)
     g->actions = MAX_ACTIONS;
     g->money = 100;
     g->medicine_owned = 0;
-    g->pets_owned = (pet **)malloc(10 * sizeof(pet *));
-    for (i = 0; i < 10; i++)
+    g->pets_owned = (pet **)malloc(MAX_PETS * sizeof(pet *));
+    for (i = 0; i < MAX_PETS; i++)
     {
         g->pets_owned[i] = NULL;
     }
@@ -41,7 +41,8 @@ void update_day(game *g)
     }
 }
 
-void end_day(game *g){
+void end_day(game *g)
+{
     g->part_of_day = 0;
 }
 
@@ -49,7 +50,7 @@ void free_game(game *g)
 {
     int i;
     /*To check for any pet pointers and free them if necessary*/
-    for (i = 0; i < 10; i++)
+    for (i = 0; i < MAX_PETS; i++)
     {
         free(g->pets_owned[i]);
     }
@@ -145,7 +146,7 @@ int load(int index)
     }
 
     /* Allocate memory for pet structure within the game */
-    g->pets_owned = (pet **)malloc(10 * sizeof(pet *)); /* currently set to a max of 10 pets*/
+    g->pets_owned = (pet **)malloc(MAX_PETS * sizeof(pet *)); /* currently set to a max of 5 pets*/
     if (g->pets_owned == NULL)
     {
         printf("Error: Memory allocation failed for pet structure\n");
@@ -160,7 +161,7 @@ int load(int index)
     {
         printf("Error: Memory allocation failed for game name\n");
         fclose(file);
-        for (i = 0; i < 10; i++)
+        for (i = 0; i < MAX_PETS; i++)
         {
             free(g->pets_owned[i]);
         }
@@ -174,7 +175,7 @@ int load(int index)
         printf("Error: Invalid file format in %s\n", filename);
         fclose(file);
         free(g->name);
-        for (i = 0; i < 10; i++)
+        for (i = 0; i < MAX_PETS; i++)
         {
             free(g->pets_owned[i]);
         }

@@ -8,6 +8,7 @@
 extern const int MAX_ACTIONS;
 extern game *global_game;
 extern const int NAME_LENGTH;
+extern const int MAX_PETS;
 
 /*maybe we define a directory here as a constant to use for save files?*/
 

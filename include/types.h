@@ -26,6 +26,8 @@ typedef enum
     HOME_PET_1 = 1,
     HOME_PET_2 = 2,
     HOME_PET_3 = 3,
+    HOME_PET_4 = 4,
+    HOME_PET_5 = 5,
     HOME_STORE = 11,
     HOME_SETTINGS = 12,
     HOME_SAVE = 13,
@@ -98,7 +100,7 @@ typedef enum
     ACTION_TRAIN = 3,
     ACTION_SLEEP = 4,
     ACTION_MEDICINE = 5,
-    ACTION_VET= 6
+    ACTION_VET = 6
 } action;
 
 typedef struct lepet

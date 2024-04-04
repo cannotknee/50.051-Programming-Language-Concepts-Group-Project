@@ -21,6 +21,8 @@ extern const char *good_state_messages[];
 
 extern const char *meme_egg_actions[];
 
+extern pet *current_pet;
+
 /*malloc for pet attributes and init everything but name*/
 void init_pet(pet *p);
 
