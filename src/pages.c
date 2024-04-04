@@ -100,13 +100,16 @@ void handle_input(int input)
             break;
         case HOME_END_DAY:
             end_day(global_game);
-            /*TODO Death/game over function
+            /*TODO Death/game over function*/
             /*TODO daily report thingy for all pets instead of just last pet*/
             for (i = 0; i < MAX_PETS; i++)
             {
                 if (global_game->pets_owned[i] != NULL)
                 {
                     died = update_all_stats(global_game->pets_owned[i], actionresult, statusreport);
+                    if (died) {
+                        global_game->pets_owned[i] = NULL;
+                    }
                 }
             }
             update_page = 1;
@@ -333,7 +336,7 @@ void display_page(void)
         display_store();
         break;
     case PAGE_PET:
-        display_pet_menu();
+        display_pet_menu(current_pet);
         break;
     case PAGE_LOADGAME:
         display_loadgame();

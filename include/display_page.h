@@ -1,3 +1,9 @@
+#ifdef _WIN32
+#define PATH_SEPARATOR "\\"
+#else
+#define PATH_SEPARATOR "/"
+#endif
+
 #ifndef _HAVE_DISPLAY_PAGE
 #define _HAVE_DISPLAY_PAGE
 
@@ -23,7 +29,7 @@ void display_home(void);
 void display_store(void);
 
 /* Will probably need to take arguments to choose which pet to display, yet to figure out */
-void display_pet_menu(void);
+void display_pet_menu(pet *p);
 
 /* Displays available games to load*/
 void display_loadgame(void);

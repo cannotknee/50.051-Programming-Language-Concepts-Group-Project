@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -ansi -pedantic -Wall -Iinclude -Werror
+CFLAGS = -pedantic -Wall -Iinclude -Werror
 
 TARGET = rungame
 SRCDIR = ./src

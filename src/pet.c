@@ -26,8 +26,8 @@ void init_pet(pet *p)
     p->growth = (level *)malloc(sizeof(level));
     p->exp = (int *)malloc(sizeof(int));
     p->value = (int *)malloc(sizeof(int));
-    /*randomize_pet_display(p, EGG); */
     *p->growth = EGG;
+    randomize_pet_display(p, *p->growth);
 }
 
 void set_name(pet *p, char *name)
@@ -149,7 +149,7 @@ int update_all_stats(pet *p, char *actionresult, char *statusreport)
     }
 
     /*growth update*/
-    p->exp++;
+    *p->exp += 1;
     /*TODO Growth message?*/
     switch (*p->growth)
     {
@@ -159,6 +159,7 @@ int update_all_stats(pet *p, char *actionresult, char *statusreport)
         if (*p->exp > 3)
         {
             *p->growth = BABY;
+            randomize_pet_display(p, *p->growth);
             *p->exp -= 3;
             strcpy(statusreport, "Your pet has hatched from its egg!");
         }
@@ -167,6 +168,7 @@ int update_all_stats(pet *p, char *actionresult, char *statusreport)
         if (*p->exp > 15)
         {
             *p->growth = YOUNG;
+            randomize_pet_display(p, *p->growth);
             *p->exp -= 15;
             strcpy(statusreport, "Your pet has grown bigger!");
         }
@@ -175,6 +177,7 @@ int update_all_stats(pet *p, char *actionresult, char *statusreport)
         if (*p->exp > 40)
         {
             *p->growth = ADULT;
+            randomize_pet_display(p, *p->growth);
             *p->exp -= 40;
             strcpy(statusreport, "Your pet has grown too beeg! It needs a new home now");
         }
