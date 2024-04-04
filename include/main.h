@@ -69,9 +69,20 @@ const char *good_state_messages[] = {
     "Insert hunger good state message",
 };
 
+const char *meme_egg_actions[] = {
+    "Feed...an egg?",
+    "Don't...just don't",
+    "Your egg is so shiny now",
+    "Your egg learned to......sit there. Good job.",
+    "Error: this should not be reachable, check meme_egg_actions",
+    "That won't make it hatch any faster, this isn't lab-grown or anything",
+    "The vet thanks you for the free cash"
+};
+
 /* global vars */
 int running = 1;     /*set to 0 to break loop and exit game*/
 int update_page = 1; /*Used to indicate if the terminal should be cleared and page refreshed/updated/changed*/
+int display_report = 0; /*Used to indicate if the status report should be displayed*/
 int input_buffer;
 char input[256];
 Page curr_page = PAGE_MAIN;

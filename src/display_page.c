@@ -15,7 +15,6 @@ void display_main(void)
     printf("1. New Game\n");
     printf("2. Load Game\n");
     printf("0. Quit\n");
-    printf("\nEnter a number to select an option: ");
 }
 
 void display_home(void)
@@ -37,7 +36,6 @@ void display_home(void)
     printf("13. Save\n");
     printf("14. End day\n");
     printf("0. Exit\n");
-    printf("\nEnter a number to select an option: ");
 }
 
 void display_store(void)
@@ -51,7 +49,6 @@ void display_store(void)
     printf("3. Buy\n");
     printf("4. Buy Medicine   (currently owned: %d)\n", global_game->medicine_owned);
     printf("0. Exit\n");
-    printf("\nEnter a number to select an option: ");
 }
 
 void display_confirmation(void)
@@ -59,7 +56,6 @@ void display_confirmation(void)
     printf("Doing this will take up time, are you sure?\n");
     printf("1. Yes\n");
     printf("2. No\n");
-    printf("\nEnter a number to select an option: ");
 }
 
 void display_settings(void)
@@ -74,7 +70,6 @@ void display_settings(void)
         printf("1. enable action confirmation\n");
     }
     printf("0. Exit\n");
-    printf("\nEnter a number to select an option: ");
 }
 
 void display_pet_menu(void)
@@ -87,7 +82,6 @@ void display_pet_menu(void)
     printf("5. Medicine   (currently owned: %d)\n", global_game->medicine_owned); /* for testing purposes only, since feeding medicine is a free action*/
     printf("6. Sell\n");
     printf("0. Exit\n");
-    printf("\nEnter a number to select an option: ");
 }
 
 void display_loadgame(void)
@@ -120,7 +114,6 @@ void display_savegame(void)
     printf("2. Slot 2\n");
     printf("3. Slot 3\n");
     printf("0. Exit\n");
-    printf("\nEnter a number to select an option: ");
 }
 
 /* display pet image from file*/

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "types.h"
 #include "pages.h"
@@ -65,13 +66,15 @@ void handle_input(int input)
             died = update_all_stats(global_game->pets_owned[0], actionresult, statusreport);
             if (died)
             {
-                printf("Your pet has died\n");
+                strcpy(actionresult, "Your pet has died!");
+                strcpy(statusreport, "R.I.P.");
                 curr_page = PAGE_MAIN;
                 update_page = 1;
+                display_report = 1;
                 break;
             }else {
-                printf("%s\n", actionresult);
-                printf("%s\n", statusreport);
+                update_page = 1;
+                display_report = 1;
             }
             break;
         case HOME_EXIT:
@@ -105,13 +108,18 @@ void handle_input(int input)
                     {
                         global_game->pets_owned[i] = newpet;
                         update_page = 1;
+                        strcpy(actionresult, "You have successfully bought pikachu");
+                        strcpy(statusreport, "Now just to wait for it to hatch");
+                        display_report = 1;
                         break;
                     }
                 }
             }
             else
             {
-                printf("Not enough money!\n");
+                strcpy(actionresult, "Not enough money");
+                strcpy(statusreport, "Lowly peasant");
+                display_report = 1;
             }
 
             break;
@@ -131,7 +139,9 @@ void handle_input(int input)
             }
             else
             {
-                printf("Not enough money!\n");
+                strcpy(actionresult, "Not enough money");
+                strcpy(statusreport, "Lowly peasant");
+                display_report = 1;
             }
 
             break;
@@ -145,65 +155,36 @@ void handle_input(int input)
         }
         break;
     case PAGE_PET:
+    
+        if (day_check() && input != PET_EXIT) {
+            break;
+        }
         /*TODO select pet, currently default pet at index 0*/
         switch (input)
         {
         case PET_FEED:
-            if (global_game->part_of_day > 2) {
-                printf("It is too late to do anything, wait until tomorrow\n");
-                break;
-            }
-            handle_action(global_game->pets_owned[0], ACTION_FEED, actionresult, statusreport);
-            printf("%s\n", actionresult);
-            printf("%s\n", statusreport);
-            update_day(global_game);
+            generic_action(global_game->pets_owned[0], ACTION_FEED);
             break;
         case PET_PLAY:
-            if (global_game->part_of_day > 2) {
-                printf("It is too late to do anything, wait until tomorrow\n");
-                break;
-            }
-            handle_action(global_game->pets_owned[0], ACTION_PLAY, actionresult, statusreport);
-            printf("%s\n", actionresult);
-            printf("%s\n", statusreport);
-            update_day(global_game);
+            generic_action(global_game->pets_owned[0], ACTION_PLAY);
             break;
         case PET_CLEAN:
-            if (global_game->part_of_day > 2) {
-                printf("It is too late to do anything, wait until tomorrow\n");
-                break;
-            }
-            handle_action(global_game->pets_owned[0], ACTION_BATHE, actionresult, statusreport);
-            printf("%s\n", actionresult);
-            printf("%s\n", statusreport);
-            update_day(global_game);
+            generic_action(global_game->pets_owned[0], ACTION_BATHE);
             break;
         case PET_TRAIN:
-            if (global_game->part_of_day > 2) {
-                printf("It is too late to do anything, wait until tomorrow\n");
-                break;
-            }
-            handle_action(global_game->pets_owned[0], ACTION_TRAIN, actionresult, statusreport);
-            printf("%s\n", actionresult);
-            printf("%s\n", statusreport);
-            update_day(global_game);
+            generic_action(global_game->pets_owned[0], ACTION_TRAIN);
             break;
         case PET_MEDICINE:
-            if (global_game->part_of_day > 2) {
-                printf("It is too late to do anything, wait until tomorrow\n");
-                break;
-            }
             if (global_game->medicine_owned > 0)
             {
                 global_game->medicine_owned--;
-                handle_action(global_game->pets_owned[0], ACTION_MEDICINE, actionresult, statusreport);
-                printf("%s\n", actionresult);
-                printf("%s\n", statusreport);
-                update_day(global_game);
+                generic_action(global_game->pets_owned[0], ACTION_MEDICINE);
             }
             else
             {
-                printf("No medicine!\n");
+                strcpy(actionresult, "No Medicine");
+                strcpy(statusreport, "Go buy some in the store");
+                display_report = 1;
             }
 
             break;
@@ -335,3 +316,22 @@ void display_page(void)
         break;
     }
 }
+
+int day_check(){
+    if (global_game->part_of_day > 2) {
+        strcpy(actionresult, "It is too late to do anything, wait until tomorrow");
+        update_page = 1;
+        display_report = 1;
+        return 1;
+    }
+    return 0;
+}
+
+
+void generic_action(pet *p, action action){
+    handle_action(p, action, actionresult, statusreport);
+    update_day(global_game);
+    update_page = 1;
+    display_report = 1;
+}
+

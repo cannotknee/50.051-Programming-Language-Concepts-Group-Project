@@ -110,38 +110,43 @@ int update_all_stats(pet *p, char *actionresult, char *statusreport)
     /*Stat update*/
     int i;
     int updated;
-    if (*p->growth != EGG)
-    { 
-        for (i = 0; i < STAT_COUNT; i++)
-        {
-            if (p->stat_state[i] == DANGER_STATE)
+    /*Scuff since if doesnt seem to work? and don't want this whole chunk twice in the growth update section*/
+    switch (*p->growth){
+        case EGG:
+            break;
+        case ADULT:
+            break;
+        default:
+            for (i = 0; i < STAT_COUNT; i++)
             {
-                /*pet dies if left in danger state for more than 2 turns*/
-                if (p->since_last_change[i] > 1)
+                if (p->stat_state[i] == DANGER_STATE)
                 {
-                    return 1;
-                }
-                p->since_last_change[i]++;
-            }
-            else if (p->stat_name[i] == STAT_FATIGUE)
-            {
-                handle_action(p, ACTION_SLEEP, actionresult, statusreport);
-            }
-
-            else
-            {
-                updated = update_stat(&p->stat_state[i], p->since_last_change[i], p->multiplier[i], p->offsets[i]);
-                if (updated)
-                {
-                    p->since_last_change[i] = 0;
-                }
-                else
-                {
+                    /*pet dies if left in danger state for more than 2 turns*/
+                    if (p->since_last_change[i] > 1)
+                    {
+                        return 1;
+                    }
                     p->since_last_change[i]++;
                 }
+                else if (p->stat_name[i] == STAT_FATIGUE)
+                {
+                    handle_action(p, ACTION_SLEEP, actionresult, statusreport);
+                }
+
+                else
+                {
+                    updated = update_stat(&p->stat_state[i], p->since_last_change[i], p->multiplier[i], p->offsets[i]);
+                    if (updated)
+                    {
+                        p->since_last_change[i] = 0;
+                    }
+                    else
+                    {
+                        p->since_last_change[i]++;
+                    }
+                }
             }
-        }
-        update_offsets(p);
+            update_offsets(p);
     }
 
     /*growth update*/
@@ -150,10 +155,13 @@ int update_all_stats(pet *p, char *actionresult, char *statusreport)
     switch (*p->growth)
     {
     case EGG:
+        strcpy(actionresult, "Your pet had a good night's sleep...I think? It's an egg, does it sleep?");
+        strcpy(statusreport, "The egg sits there, menacingly...");
         if (*p->exp > 3)
         {
             *p->growth = BABY;
             *p->exp -= 3;
+            strcpy(statusreport, "Your pet has hatched from its egg!");
         }
         break;
     case BABY:
@@ -161,6 +169,7 @@ int update_all_stats(pet *p, char *actionresult, char *statusreport)
         {
             *p->growth = YOUNG;
             *p->exp -= 15;
+            strcpy(statusreport, "Your pet has grown bigger!");
         }
         break;
     case YOUNG:
@@ -168,13 +177,17 @@ int update_all_stats(pet *p, char *actionresult, char *statusreport)
         {
             *p->growth = ADULT;
             *p->exp -= 40;
+            strcpy(statusreport, "Your pet has grown too beeg! It needs a new home now");
         }
         break;
     case ADULT:
+        strcpy(actionresult, "Your pet is all grown up now!");
+        strcpy(statusreport, "Sell it off for some quick bucks!");
         break;
     default:
         break;
     }
+    
     return 0;
 }
 
@@ -369,6 +382,19 @@ void handle_action(pet *p, action a, char *actionresult, char *statusreport)
 {
     int success;
     int updated;
+
+    switch (*p->growth){
+        case EGG:
+            strcpy(actionresult, meme_egg_actions[a]);
+            strcpy(statusreport, "Your egg is still an egg");
+            return;
+        case ADULT:
+            strcpy(actionresult, "Your pet is all grown up now!");
+            strcpy(statusreport, "Sell it off for some quick bucks!");
+            return;
+        default:
+            break;
+    }
 
     success = calc_action(p, a);
 

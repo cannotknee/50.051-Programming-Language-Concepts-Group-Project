@@ -17,6 +17,7 @@ void init_game(game *g, char *name)
     g->period_of_day[0] = "Morning";
     g->period_of_day[1] = "Afternoon";
     g->period_of_day[2] = "Evening";
+    g->period_of_day[3] = "Night";
     g->actions = MAX_ACTIONS;
     g->money = 100;
     g->medicine_owned = 0;

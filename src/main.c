@@ -20,6 +20,15 @@ int main(int argc, char *argv[])
             display_page();
             update_page = 0;
         }
+        if(display_report)
+        {
+            printf("====================================================\n");
+            printf("%s\n", actionresult);
+            printf("%s\n", statusreport);
+            display_report = 0;
+        }
+        printf("====================================================\n");
+        printf("\nEnter a number to select an option: ");
 
         fgets(input, BUFFER_SIZE, stdin);
         sscanf(input, "%d", &input_buffer);
