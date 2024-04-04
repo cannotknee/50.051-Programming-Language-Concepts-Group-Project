@@ -23,7 +23,7 @@ void display_home(void);
 void display_store(void);
 
 /* Will probably need to take arguments to choose which pet to display, yet to figure out */
-void display_pet_menu(void);
+void display_pet_menu(pet *p);
 
 /* Displays available games to load*/
 void display_loadgame(void);

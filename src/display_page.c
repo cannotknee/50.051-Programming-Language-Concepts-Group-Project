@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include<string.h>
+#include <string.h>
 
 #include "types.h"
 #include "display_page.h"
@@ -70,8 +70,9 @@ void display_settings(void)
     printf("0. Exit\n");
 }
 
-void display_pet_menu(void)
+void display_pet_menu(pet *p)
 {
+    display_pet_image(p);
     printf("This is the pet page     %s\n", global_game->period_of_day[global_game->part_of_day]);
     printf("1. Feed\n");
     printf("2. Play\n");
