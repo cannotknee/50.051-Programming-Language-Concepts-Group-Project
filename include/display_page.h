@@ -1,3 +1,9 @@
+#ifdef _WIN32
+#define PATH_SEPARATOR "\\"
+#else
+#define PATH_SEPARATOR "/"
+#endif
+
 #ifndef _HAVE_DISPLAY_PAGE
 #define _HAVE_DISPLAY_PAGE
 

@@ -136,6 +136,7 @@ void display_pet_image(pet *p)
     {
         printf("%s", line);
     }
+    printf("\n");
 
     fclose(file);
 }
@@ -147,22 +148,22 @@ void randomize_pet_display(pet *p, level currlevel)
     if (currlevel == EGG)
     {
         int rand_int = (rand() % NUM_EGG_STAGE_FILES) + 1;
-        snprintf(filename, MAX_FILENAME_LENGTH, "image/egg_display_%d.txt", rand_int);
+        snprintf(filename, MAX_FILENAME_LENGTH, "image" PATH_SEPARATOR "egg_display_%d.txt", rand_int);
     }
     else if (currlevel == BABY)
     {
         int rand_int = (rand() % NUM_BABY_STAGE_FILES) + 1;
-        snprintf(filename, MAX_FILENAME_LENGTH, "image/baby_display_%d.txt", rand_int);
+        snprintf(filename, MAX_FILENAME_LENGTH, "image" PATH_SEPARATOR "baby_display_%d.txt", rand_int);
     }
     else if (currlevel == YOUNG)
     {
         int rand_int = (rand() % NUM_YOUNG_STAGE_FILES) + 1;
-        snprintf(filename, MAX_FILENAME_LENGTH, "image/young_display_%d.txt", rand_int);
+        snprintf(filename, MAX_FILENAME_LENGTH, "image" PATH_SEPARATOR "young_display_%d.txt", rand_int);
     }
     else if (currlevel == ADULT)
     {
         int rand_int = (rand() % NUM_ADULT_STAGE_FILES) + 1;
-        snprintf(filename, MAX_FILENAME_LENGTH, "image/adult_display_%d.txt", rand_int);
+        snprintf(filename, MAX_FILENAME_LENGTH, "image" PATH_SEPARATOR "adult_display_%d.txt", rand_int);
     }
     else
     {
