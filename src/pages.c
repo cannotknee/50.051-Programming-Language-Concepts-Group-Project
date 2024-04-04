@@ -100,7 +100,8 @@ void handle_input(int input)
             break;
         case HOME_END_DAY:
             end_day(global_game);
-            /*TODO if multiple pets are to be implemented, need a way to cycle through them and update all stats for all*/
+            /*TODO Death/game over function
+            /*TODO daily report thingy for all pets instead of just last pet*/
             for (i = 0; i < MAX_PETS; i++)
             {
                 if (global_game->pets_owned[i] != NULL)
@@ -108,20 +109,6 @@ void handle_input(int input)
                     died = update_all_stats(global_game->pets_owned[i], actionresult, statusreport);
                 }
             }
-            /*if (died)
-            {
-                strcpy(actionresult, "Your pet has died!");
-                strcpy(statusreport, "R.I.P.");
-                curr_page = PAGE_MAIN;
-                update_page = 1;
-                display_report = 1;
-                break;
-            }
-            else
-            {
-                update_page = 1;
-                display_report = 1;
-            }*/
             update_page = 1;
             display_report = 1;
             break;
