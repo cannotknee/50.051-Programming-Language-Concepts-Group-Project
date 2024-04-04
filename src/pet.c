@@ -26,7 +26,7 @@ void init_pet(pet *p)
     p->growth = (level *)malloc(sizeof(level));
     p->exp = (int *)malloc(sizeof(int));
     p->value = (int *)malloc(sizeof(int));
-    /*randomize_pet_display(p, EGG); */
+    randomize_pet_display(p, EGG);
     *p->growth = EGG;
 }
 
