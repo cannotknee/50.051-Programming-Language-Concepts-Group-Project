@@ -28,10 +28,10 @@ typedef enum
     HOME_PET_3 = 3,
     HOME_PET_4 = 4,
     HOME_PET_5 = 5,
-    HOME_STORE = 11,
-    HOME_SETTINGS = 12,
-    HOME_SAVE = 13,
-    HOME_END_DAY = 14,
+    HOME_STORE = 6,
+    HOME_SETTINGS = 7,
+    HOME_SAVE = 8,
+    HOME_END_DAY = 9,
     HOME_EXIT = 0
 } HomeOptions;
 

@@ -20,7 +20,7 @@ void display_main(void)
 void display_home(void)
 {
     int i;
-    printf("This is the home page\n");
+    printf("This is the home page     %s\n", global_game->period_of_day[global_game->part_of_day]);
     if (global_game->pets_owned != NULL)
     {
         for (i = 0; i < MAX_PETS; i++)
@@ -29,12 +29,16 @@ void display_home(void)
             {
                 printf("%d. %s\n", i + 1, global_game->pets_owned[i]->name);
             }
+            else
+            {
+                printf("%d. Empty\n", i + 1);
+            }
         }
     }
-    printf("11. Store\n");
-    printf("12. Settings\n");
-    printf("13. Save\n");
-    printf("14. End day\n");
+    printf("6. Store\n");
+    printf("7. Settings\n");
+    printf("8. Save\n");
+    printf("9. End day\n");
     printf("0. Exit\n");
 }
 
@@ -49,13 +53,6 @@ void display_store(void)
     printf("3. Buy\n");
     printf("4. Buy Medicine   (currently owned: %d)\n", global_game->medicine_owned);
     printf("0. Exit\n");
-}
-
-void display_confirmation(void)
-{
-    printf("Doing this will take up time, are you sure?\n");
-    printf("1. Yes\n");
-    printf("2. No\n");
 }
 
 void display_settings(void)
@@ -114,6 +111,13 @@ void display_savegame(void)
     printf("2. Slot 2\n");
     printf("3. Slot 3\n");
     printf("0. Exit\n");
+}
+
+void display_confirmation(void)
+{
+    printf("Doing this will take up time, are you sure?\n");
+    printf("1. Yes\n");
+    printf("2. No\n");
 }
 
 /* display pet image from file*/
