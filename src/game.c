@@ -6,6 +6,7 @@
 
 #include "types.h"
 #include "game.h"
+#include "pet.h"
 
 void init_game(game *g, char *name)
 {
@@ -59,7 +60,7 @@ void free_game(game *g)
     free(g);
 }
 
-int save(game *g, int index)
+int save_game(game *g, int index)
 {
     char filename[50];
     FILE *file;
@@ -78,7 +79,7 @@ int save(game *g, int index)
     if (access(filename, F_OK) == 0)
     {
         char response;
-        printf("A saved game already exists in slot %d. Do you want to overwrite it? (y/n): ", index);
+        printf("A saved game already exists in slot %d. Do you want to overwrite it? (Y/n): ", index);
         scanf(" %c", &response);
 
         /* Clear input buffer */
@@ -101,7 +102,7 @@ int save(game *g, int index)
     }
 
     /* Check if game data and pet data are valid */
-    if (g == NULL || g->pets_owned == NULL || g->name == NULL)
+    if (g == NULL || g->pets_owned == NULL || g->name == NULL || g->part_of_day < 0 || g->part_of_day > 3 || g->actions < 0 || g->actions > MAX_ACTIONS || g->money < 0 || g->medicine_owned < 0 || g->action_confirmation < 0)
     {
         printf("Error: Invalid current game data. Please restart the game.\n");
         fclose(file);
@@ -109,24 +110,33 @@ int save(game *g, int index)
     }
 
     /* Write game state to save file */
-    fprintf(file, "%d,%d,%d\n", g->part_of_day, g->actions, g->money);
+    fprintf(file, "%s,%d,%d,%d,%d,%d\n", g->name, g->part_of_day, g->actions, g->money, g->medicine_owned, g->action_confirmation);
 
     fclose(file);
     printf("Game saved successfully to slot %d.\n", index);
     return 1;
 }
 
-int load(int index)
+int load_game(game *g, int input)
 {
     char filename[50];
     FILE *file;
-    int i;
 
-    /* Declare variables at the beginning of the function */
-    game *g;
+    /* Check if the slot is within valid range (1 to 3) */
+    if (input < 1 || input > 3)
+    {
+        printf("Invalid slot index. Slot index must be between 1 and 3.\n");
+        return 0;
+    }
 
-    /* Determine the filename based on the index provided */
-    sprintf(filename, "save_files/save%d.csv", index);
+    if (g == NULL)
+    {
+        printf("Critical error: Game not initialised. Please restart.\n");
+        return 0;
+    }
+
+    /* Construct filename based on the slot index */
+    sprintf(filename, "save_files/save%d.csv", input);
 
     /* Open the file for reading */
     file = fopen(filename, "r");
@@ -136,65 +146,72 @@ int load(int index)
         return 0;
     }
 
-    /* Allocate memory for the game structure */
-    g = (game *)malloc(sizeof(game));
-    if (g == NULL)
-    {
-        printf("Error: Memory allocation failed for game structure\n");
-        fclose(file);
-        return 0;
-    }
+    /* Initialize game attributes */
+    init_game(g, "This is as big as a filename can be"); // Pass maximum length of name
 
-    /* Allocate memory for pet structure within the game */
-    g->pets_owned = (pet **)malloc(MAX_PETS * sizeof(pet *)); /* currently set to a max of 5 pets*/
-    if (g->pets_owned == NULL)
+    /* Read data from the file and populate the game structure */
+    if (fscanf(file, "%[^,],%d,%d,%d,%d,%d\n", g->name, &g->part_of_day, &g->actions, &g->money, &g->medicine_owned, &g->action_confirmation) != 6)
     {
-        printf("Error: Memory allocation failed for pet structure\n");
+        printf("Error: Invalid data format in file %s\n", filename);
         fclose(file);
         free(g);
         return 0;
     }
 
-    /* Allocate memory for pet name attribute */
-    g->name = (char *)malloc(NAME_LENGTH * sizeof(char));
-    if (g->name == NULL)
+    if (load_pets(g, input) == 0)
     {
-        printf("Error: Memory allocation failed for game name\n");
+        printf("Error: Could not load pets from file %s\n", filename);
         fclose(file);
-        for (i = 0; i < MAX_PETS; i++)
-        {
-            free(g->pets_owned[i]);
-        }
         free(g);
         return 0;
     }
-
-    /* Read game state from save file */
-    if (fscanf(file, "%d,%d,%d,%s\n", &g->part_of_day, &g->actions, &g->money, g->name) != 4)
-    {
-        printf("Error: Invalid file format in %s\n", filename);
-        fclose(file);
-        free(g->name);
-        for (i = 0; i < MAX_PETS; i++)
-        {
-            free(g->pets_owned[i]);
-        }
-        free(g);
-        return 0;
-    }
-
-    /* TODO: Initialize game attributes */
-    init_game(g, g->name);
 
     fclose(file);
-    printf("Loaded game state from slot %d\n", index);
+    return 1;
+}
 
-    if (global_game != NULL)
+int load_pets(game *g, int input)
+{
+    char filename[50];
+    FILE *file;
+    int i = 0, j;
+
+    /* Construct filename based on the slot index */
+    sprintf(filename, "save_files/pets%d.csv", input);
+
+    /* Open the file for reading */
+    file = fopen(filename, "r");
+    if (file == NULL)
     {
-        free_game(global_game);
+        printf("Error: Could not open file %s\n", filename);
+        return 0;
     }
-    global_game = g;
 
+    /* Allocate memory for max pets */
+    for (j = 0; j < MAX_PETS; j++)
+    {
+        g->pets_owned[j] = (pet *)malloc(sizeof(pet));
+        init_pet(g->pets_owned[j]);
+        if (g->pets_owned[j] == NULL)
+        {
+            printf("Error: Memory allocation failed\n");
+            return 0;
+        }
+    }
+
+    /* Read data from the file and populate the game structure */
+    while (fscanf(file, "%[^,],%d,%d,%d,%d,%d,%lf,%lf,%d,%[^,],%d,%d,%d\n", g->pets_owned[i]->name,
+                  &g->pets_owned[i]->stat_name[0], &g->pets_owned[i]->stat_name[1],
+                  &g->pets_owned[i]->stat_name[2], &g->pets_owned[i]->stat_name[3],
+                  &g->pets_owned[i]->stat_name[4], &(*g->pets_owned[i]->multiplier),
+                  &(*g->pets_owned[i]->offsets), &(*g->pets_owned[i]->since_last_change),
+                  g->pets_owned[i]->display_filename, &(*g->pets_owned[i]->growth),
+                  &(*g->pets_owned[i]->exp), &(*g->pets_owned[i]->value)) == 13)
+    {
+        i++;
+    }
+
+    fclose(file);
     return 1;
 }
 

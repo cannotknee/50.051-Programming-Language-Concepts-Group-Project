@@ -107,7 +107,8 @@ void handle_input(int input)
                 if (global_game->pets_owned[i] != NULL)
                 {
                     died = update_all_stats(global_game->pets_owned[i], actionresult, statusreport);
-                    if (died) {
+                    if (died)
+                    {
                         global_game->pets_owned[i] = NULL;
                     }
                 }
@@ -247,8 +248,9 @@ void handle_input(int input)
             update_page = 1;
             break;
         default:
+            global_game = (game *)malloc(sizeof(game));
             if (
-                load(input))
+                load_game(global_game, input))
             {
                 curr_page = PAGE_HOME;
                 update_page = 1;
@@ -268,11 +270,10 @@ void handle_input(int input)
             update_page = 1;
             break;
         default:
-            if (save(global_game, input))
+            if (save_game(global_game, input))
             {
                 printf("Save Successful\n");
-                curr_page = PAGE_HOME;
-                update_page = 1;
+                printf("Enter 0 to return to home\n");
             }
             break;
         }
@@ -356,7 +357,7 @@ void display_page(void)
     }
 }
 
-int day_check()
+int day_check(void)
 {
     if (global_game->part_of_day > 2)
     {
@@ -391,7 +392,7 @@ int pet_exist(pet *p)
     }
 }
 
-void display_invalid_input()
+void display_invalid_input(void)
 {
     strcpy(actionresult, "Invalid Input");
     strcpy(statusreport, "Please key in one of the available options");

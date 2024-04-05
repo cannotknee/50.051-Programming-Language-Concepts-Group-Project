@@ -25,10 +25,13 @@ void end_day(game *g);
 void free_game(game *g);
 
 /*Save the player data to (player name) file in ??? directory specified in argument (to add)*/
-int save(game *g, int index);
+int save_game(game *g, int index);
 
-/*malloc game and Load specified file, path to add to arguments???*/
-int load(int index);
+/* malloc and load game from file based on index */
+int load_game(game *g, int index);
+
+/* Load pets based on index */
+int load_pets(game *g, int index);
 
 /*Read directory for save files (which should be player names) to display on loadgame page*/
 char **get_save_files(void);

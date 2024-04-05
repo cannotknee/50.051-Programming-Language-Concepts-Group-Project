@@ -24,6 +24,6 @@ void generic_action(pet *p, action action);
 int pet_exist(pet *p);
 
 /* display message on screen when players give an invalid input*/
-void display_invalid_input();
+void display_invalid_input(void);
 
 #endif
