@@ -292,6 +292,7 @@ void handle_input(int input)
             break;
         default:
             display_invalid_input();
+            printf("File is corrupted\n");
             break;
         }
         break;
