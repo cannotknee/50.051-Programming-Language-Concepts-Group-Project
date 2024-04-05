@@ -27,6 +27,9 @@ void free_game(game *g);
 /*Save the player data to (player name) file in ??? directory specified in argument (to add)*/
 int save_game(game *g, int index);
 
+/*Save pets to file based on index*/
+int save_pets(game *g, int index);
+
 /* malloc and load game from file based on index */
 int load_game(game *g, int index);
 

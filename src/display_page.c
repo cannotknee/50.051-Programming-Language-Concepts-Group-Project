@@ -98,7 +98,7 @@ void display_loadgame(void)
     {
         while (save_files[i] != NULL)
         {
-            printf("%d. %s\n", i + 1, save_files[i]);
+            printf("%d. Slot %d\n", i + 1, i + 1);
             i++;
         }
         printf("0. Exit\n");

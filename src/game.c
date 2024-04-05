@@ -101,10 +101,9 @@ int save_game(game *g, int index)
         return 0;
     }
 
-    /* Check if game data and pet data are valid */
-    if (g == NULL || g->pets_owned == NULL || g->name == NULL || g->part_of_day < 0 || g->part_of_day > 3 || g->actions < 0 || g->actions > MAX_ACTIONS || g->money < 0 || g->medicine_owned < 0 || g->action_confirmation < 0)
+    if (save_pets(g, index) == 0)
     {
-        printf("Error: Invalid current game data. Please restart the game.\n");
+        printf("Error: Could not save pets to file %s\n", filename);
         fclose(file);
         return 0;
     }
@@ -114,6 +113,42 @@ int save_game(game *g, int index)
 
     fclose(file);
     printf("Game saved successfully to slot %d.\n", index);
+    return 1;
+}
+
+int save_pets(game *g, int index)
+{
+    char filename[50];
+    FILE *file;
+    int i;
+
+    /* Construct filename based on the slot index */
+    sprintf(filename, "save_files/pets/pets%d.csv", index);
+
+    /* Open the file for writing */
+    file = fopen(filename, "w");
+    if (file == NULL)
+    {
+        printf("Error: Could not create save file %s\n", filename);
+        return 0;
+    }
+
+    /* Write pet data to save file */
+    for (i = 0; i < MAX_PETS; i++)
+    {
+        if (g->pets_owned[i] != NULL)
+        {
+            fprintf(file, "%s,%d,%d,%d,%d,%d,%lf,%lf,%d,%s,%d,%d,%d\n", g->pets_owned[i]->name,
+                    g->pets_owned[i]->stat_name[0], g->pets_owned[i]->stat_name[1],
+                    g->pets_owned[i]->stat_name[2], g->pets_owned[i]->stat_name[3],
+                    g->pets_owned[i]->stat_name[4], *g->pets_owned[i]->multiplier,
+                    *g->pets_owned[i]->offsets, *g->pets_owned[i]->since_last_change,
+                    g->pets_owned[i]->display_filename, *g->pets_owned[i]->growth,
+                    *g->pets_owned[i]->exp, *g->pets_owned[i]->value);
+        }
+    }
+
+    fclose(file);
     return 1;
 }
 
@@ -172,12 +207,13 @@ int load_game(game *g, int input)
 
 int load_pets(game *g, int input)
 {
-    char filename[50];
+    char filename[50], line[100];
     FILE *file;
-    int i = 0, j;
+    int i;
+    int num_pets = 0;
 
     /* Construct filename based on the slot index */
-    sprintf(filename, "save_files/pets%d.csv", input);
+    sprintf(filename, "save_files/pets/pets%d.csv", input);
 
     /* Open the file for reading */
     file = fopen(filename, "r");
@@ -187,12 +223,26 @@ int load_pets(game *g, int input)
         return 0;
     }
 
-    /* Allocate memory for max pets */
-    for (j = 0; j < MAX_PETS; j++)
+    while (fgets(line, sizeof(line), file) != NULL)
     {
-        g->pets_owned[j] = (pet *)malloc(sizeof(pet));
-        init_pet(g->pets_owned[j]);
-        if (g->pets_owned[j] == NULL)
+        num_pets++;
+    }
+
+    rewind(file);
+
+    /* Allocate memory for max pets */
+    for (i = 0; i < num_pets; i++)
+    {
+        g->pets_owned[i] = (pet *)malloc(sizeof(pet));
+        init_pet(g->pets_owned[i]);
+        ;
+        if (g->pets_owned[i] == NULL || !(fscanf(file, "%[^,],%d,%d,%d,%d,%d,%lf,%lf,%d,%[^,],%d,%d,%d\n", g->pets_owned[i]->name,
+                                                &g->pets_owned[i]->stat_name[0], &g->pets_owned[i]->stat_name[1],
+                                                &g->pets_owned[i]->stat_name[2], &g->pets_owned[i]->stat_name[3],
+                                                &g->pets_owned[i]->stat_name[4], &(*g->pets_owned[i]->multiplier),
+                                                &(*g->pets_owned[i]->offsets), &(*g->pets_owned[i]->since_last_change),
+                                                g->pets_owned[i]->display_filename, &(*g->pets_owned[i]->growth),
+                                                &(*g->pets_owned[i]->exp), &(*g->pets_owned[i]->value)) == 13))
         {
             printf("Error: Memory allocation failed\n");
             return 0;
@@ -200,16 +250,6 @@ int load_pets(game *g, int input)
     }
 
     /* Read data from the file and populate the game structure */
-    while (fscanf(file, "%[^,],%d,%d,%d,%d,%d,%lf,%lf,%d,%[^,],%d,%d,%d\n", g->pets_owned[i]->name,
-                  &g->pets_owned[i]->stat_name[0], &g->pets_owned[i]->stat_name[1],
-                  &g->pets_owned[i]->stat_name[2], &g->pets_owned[i]->stat_name[3],
-                  &g->pets_owned[i]->stat_name[4], &(*g->pets_owned[i]->multiplier),
-                  &(*g->pets_owned[i]->offsets), &(*g->pets_owned[i]->since_last_change),
-                  g->pets_owned[i]->display_filename, &(*g->pets_owned[i]->growth),
-                  &(*g->pets_owned[i]->exp), &(*g->pets_owned[i]->value)) == 13)
-    {
-        i++;
-    }
 
     fclose(file);
     return 1;
@@ -240,16 +280,16 @@ char **get_save_files(void)
     }
 
     /* Read each entry in the directory */
-    while ((entry = readdir(dir)) != NULL && num_files < 100)
+    while ((entry = readdir(dir)) != NULL && num_files < 4)
     {
-        /* Skip entries for the current directory and parent directory */
-        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
+        /* Skip entries for the current directory, parent directory & child directory */
+        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0 || strcmp(entry->d_name, "pets") == 0)
         {
             continue;
         }
 
-        /* Allocate memory for the file name */
-        save_files[num_files] = (char *)malloc((strlen(entry->d_name) + 1) * sizeof(char));
+        /* Allocate memory for the game name */
+        save_files[num_files] = (char *)malloc(strlen(entry->d_name) + 1);
         if (save_files[num_files] == NULL)
         {
             printf("Error: Memory allocation failed\n");
