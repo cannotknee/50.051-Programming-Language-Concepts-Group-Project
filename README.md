@@ -1,6 +1,6 @@
 PetSim: Text-Based Pet Simulation Adventure
 ==================================================
-![alt text](https://github.com/[cannotknee]/[50.051-Programming-Language-Concepts-Group-Project]/blob/[main]/demo.png?raw=true)
+![alt text](https://github.com/cannotknee/50.051-Programming-Language-Concepts-Group-Project/blob/main/demo.png?raw=true)
 ### Top-level directory layout
     
 ```
