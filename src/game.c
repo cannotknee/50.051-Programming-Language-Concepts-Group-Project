@@ -248,11 +248,11 @@ int load_pets(game *g, int input)
 
         // Read attributes from the line
         if (sscanf(line, "%[^,],%d,%d,%d,%d,%d,%lf,%lf,%d,%[^,],%d,%d,%d\n", g->pets_owned[num_pets]->name,
-                   &g->pets_owned[num_pets]->stat_name[0], &g->pets_owned[num_pets]->stat_name[1],
-                   &g->pets_owned[num_pets]->stat_name[2], &g->pets_owned[num_pets]->stat_name[3],
-                   &g->pets_owned[num_pets]->stat_name[4], &(*g->pets_owned[num_pets]->multiplier),
+                   (int *)&g->pets_owned[num_pets]->stat_name[0], (int *)&g->pets_owned[num_pets]->stat_name[1],
+                   (int *)&g->pets_owned[num_pets]->stat_name[2], (int *)&g->pets_owned[num_pets]->stat_name[3],
+                   (int *)&g->pets_owned[num_pets]->stat_name[4], &(*g->pets_owned[num_pets]->multiplier),
                    &(*g->pets_owned[num_pets]->offsets), &(*g->pets_owned[num_pets]->since_last_change),
-                   g->pets_owned[num_pets]->display_filename, &(*g->pets_owned[num_pets]->growth),
+                   g->pets_owned[num_pets]->display_filename, (int *)&(*g->pets_owned[num_pets]->growth),
                    &(*g->pets_owned[num_pets]->exp), &(*g->pets_owned[num_pets]->value)) != 13)
         {
             printf("Error: Invalid data format in file %s\n", filename);
