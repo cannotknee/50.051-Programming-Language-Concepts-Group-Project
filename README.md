@@ -1,6 +1,7 @@
-50.051-Programming-Language-Concepts-Group-Project
+PetSim: Text-Based Pet Simulation Adventure
 ==================================================
-### top-level directory layout
+![alt text](https://github.com/[cannotknee]/[50.051-Programming-Language-Concepts-Group-Project]/blob/[main]/demo.png?raw=true)
+### Top-level directory layout
     
 ```
 .
@@ -11,6 +12,7 @@
 ├── .gitignore                          # directories and files to ignore
 ├── 50-051_Project_Instructions.pdf     # project instructions
 ├── PLC Proposal.pdf                    # initial project proposal
+├── demo.png                            # screenshot of the game
 ├── makefile                            # makefile for compiling the game
 |── README.md                           # game information & what needs to be done to run the code
 └── rungame                             # executable file for running the game
@@ -38,3 +40,10 @@
 - There is a maximum of 3 csv save files for the game, which players can use to save their progress and load it at a later time.
 - There is a maximum of 5 pets that players can own at any one time.
 - "enable action confirmation" is a setting that players can enable to confirm their actions before proceeding.
+
+### Authors
+Cohort 1 Group 1:
+* **Jobelle Lee** - [themaxermister](https://github.com/themaxermister)
+* **Kenny Ong** - [cannotknee](https://github.com/cannotknee)
+* **Lee Darren** - [hecatehonryuu](https://github.com/hecatehonryuu)
+* **Wang Xingrui** - [Polaris106](https://github.com/Polaris106)
