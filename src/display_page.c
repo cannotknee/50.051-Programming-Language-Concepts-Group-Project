@@ -101,6 +101,7 @@ void display_loadgame(void)
             printf("%d. Slot %d\n", i + 1, i + 1);
             i++;
         }
+        free(save_files);
         printf("0. Exit\n");
     }
 }

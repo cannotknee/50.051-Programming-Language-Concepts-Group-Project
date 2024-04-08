@@ -55,6 +55,7 @@ void free_game(game *g)
     {
         free(g->pets_owned[i]);
     }
+    free(g->pets_owned);
     free(g->period_of_day);
     free(g->name);
     free(g);
@@ -184,15 +185,15 @@ int load_game(game *g, int input)
         return 0;
     }
 
-    /* Initialize game attributes */
-    init_game(g, "This is as big as a filename can be"); // Pass maximum length of name
+    /* Initialize game attributes with maximum possible values */
+    init_game(g, "This is as big as the name can be");
 
     /* Read data from the file and populate the game structure */
     if (fscanf(file, "%[^,],%d,%d,%d,%d,%d\n", g->name, &g->part_of_day, &g->actions, &g->money, &g->medicine_owned, &g->action_confirmation) != 6)
     {
         printf("Error: Invalid data format in file %s\n", filename);
         fclose(file);
-        free(g);
+        free_game(g);
         return 0;
     }
 
@@ -200,7 +201,7 @@ int load_game(game *g, int input)
     {
         printf("Error: Could not load pets from file %s\n", filename);
         fclose(file);
-        free(g);
+        free_game(g);
         return 0;
     }
 
