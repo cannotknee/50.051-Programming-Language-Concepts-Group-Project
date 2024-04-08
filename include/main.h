@@ -41,35 +41,35 @@ const char *action_super_messages[] = {
     "Error: This action should not have super success"};
 
 const char *danger_state_messages[] = {
-    "Insert happiness danger state message",
-    "Insert health danger state message",
-    "Insert cleanliness danger state message",
-    "Insert fatigue danger state message",
-    "Insert hunger danger state message",
+    "Your pet is depressed. It needs more attention.",
+    "Your pet is critically ill. It needs some medicine.",
+    "Your pet has flesh-eating bacteria. It needs a bath.",
+    "Your pet is sleep-deprived. It needs some rest.",
+    "Your pet is starving. It needs some food.",
 };
 
 const char *bad_state_messages[] = {
-    "Insert happiness bad state message",
-    "Insert health bad state message",
-    "Insert cleanliness bad state message",
-    "Insert fatigue bad state message",
-    "Insert hunger bad state message",
+    "Your pet is unhappy. It needs more attention.",
+    "Your pet is sick. It needs some medicine.",
+    "Your pet is dirty. It needs a bath.",
+    "Your pet is tired. It needs some rest.",
+    "Your pet is hungry. It needs some food.",
 };
 
 const char *normal_state_messages[] = {
-    "Insert happiness normal state message",
-    "Insert health normal state message",
-    "Insert cleanliness normal state message",
-    "Insert fatigue normal state message",
-    "Insert hunger normal state message",
+    "Your pet is happy.",
+    "Your pet is healthy.",
+    "Your pet is clean.",
+    "Your pet is well-rested.",
+    "Your pet is well-fed.",
 };
 
 const char *good_state_messages[] = {
-    "Insert happiness good state message",
-    "Insert health good state message",
-    "Insert cleanliness good state message",
-    "Insert fatigue good state message",
-    "Insert hunger good state message",
+    "Your pet is ecstatic!",
+    "Your pet is in perfect health!",
+    "Your pet is sparkling clean!",
+    "Your pet is well-rested and energetic!",
+    "Your pet is full and satisfied!",
 };
 
 const char *meme_egg_actions[] = {
