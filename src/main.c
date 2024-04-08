@@ -14,6 +14,8 @@ int main(int argc, char *argv[])
 
     while (running)
     {
+        system("clear");
+        system("cls");
         if (update_page)
         {
             printf("\033[H\033[J"); /*Clear screen, might want to find a more elegant way*/
