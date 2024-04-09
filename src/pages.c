@@ -142,7 +142,7 @@ void handle_input(int input)
                 {   
                     if (global_game->pets_owned[i] == NULL)
                     {   
-                        char pet_name[50];
+                        char pet_name[NAME_LENGTH];
                         newpet = (pet *)malloc(sizeof(pet));
                         init_pet(newpet);
                         set_personality(newpet);
@@ -156,7 +156,6 @@ void handle_input(int input)
                         strcpy(actionresult, "You have successfully bought a new pet egg!");
                         strcpy(statusreport, "Now just to wait for it to hatch");
                         display_report = 1;
-                        free(newpet);
 
                         skip_input = 1;
                         input_buffer = STORE_EXIT;
