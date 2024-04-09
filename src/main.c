@@ -32,10 +32,14 @@ int main(int argc, char *argv[])
         printf("====================================================\n");
         printf("\nEnter a number to select an option: ");
 
-        fgets(input, BUFFER_SIZE, stdin);
-        sscanf(input, "%d", &input_buffer);
+        if (skip_input) {
+            skip_input = 0;
+        } else {
+            fgets(input, BUFFER_SIZE, stdin);
+            sscanf(input, "%d", &input_buffer);
 
-        handle_input(input_buffer);
+            handle_input(input_buffer);
+        }
     }
 
     free(actionresult);

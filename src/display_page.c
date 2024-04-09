@@ -49,10 +49,8 @@ void display_store(void)
     printf("Currency: %d     ", global_game->money);
     printf("%s\n", global_game->period_of_day[global_game->part_of_day]);
 
-    printf("1. Pikachu\n");
-    printf("2. Buy\n");
-    printf("3. Buy\n");
-    printf("4. Buy Medicine   (currently owned: %d)\n", global_game->medicine_owned);
+    printf("1. Buy New Egg\n");
+    printf("2. Buy Medicine   (currently owned: %d)\n", global_game->medicine_owned);
     printf("0. Exit\n");
 }
 
