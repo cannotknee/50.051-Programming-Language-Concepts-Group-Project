@@ -134,25 +134,36 @@ void handle_input(int input)
         {
         case STORE_BUY_1:
             /* TODO: initialize pet and store in pets_owned*/
-            newpet = (pet *)malloc(sizeof(pet));
-            init_pet(newpet);
-            set_name(newpet, "Pikachu");
-            set_personality(newpet);
             if (global_game->money >= 50)
             {
                 global_game->money -= 50;
+                
                 for (i = 0; i < MAX_PETS; i++)
-                {
+                {   
                     if (global_game->pets_owned[i] == NULL)
-                    {
+                    {   
+                        char pet_name[50];
+                        newpet = (pet *)malloc(sizeof(pet));
+                        init_pet(newpet);
+                        set_personality(newpet);
+                        printf("Enter a name for your pet: ");
+                        scanf("%s", pet_name);
+                        set_name(newpet, pet_name);
+
                         global_game->pets_owned[i] = newpet;
                         update_page = 1;
-                        strcpy(actionresult, "You have successfully bought pikachu");
+
+                        strcpy(actionresult, "You have successfully bought a new pet egg!");
                         strcpy(statusreport, "Now just to wait for it to hatch");
                         display_report = 1;
+                        free(pet_name);
+                        free(newpet);
                         break;
                     }
                 }
+                strcpy(actionresult, "You have too many pets");
+                strcpy(statusreport, "You can oly have 5 pets at a time");
+                display_report = 1;
             }
             else
             {
@@ -160,14 +171,6 @@ void handle_input(int input)
                 strcpy(statusreport, "Lowly peasant");
                 display_report = 1;
             }
-
-            break;
-        case STORE_BUY_2:
-            printf("Buy\n");
-            break;
-        case STORE_BUY_3:
-            printf("Buy\n");
-            break;
         case STORE_BUY_MEDICINE:
             /* if there is enough money, purchase medicine*/
             if (global_game->money >= 10)
