@@ -4,6 +4,8 @@
 extern int running;
 extern int update_page;
 extern int display_report;
+extern int skip_input;
+extern int input_buffer;
 extern Page curr_page;
 extern char *actionresult;
 extern char *statusreport;

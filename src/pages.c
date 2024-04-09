@@ -156,8 +156,10 @@ void handle_input(int input)
                         strcpy(actionresult, "You have successfully bought a new pet egg!");
                         strcpy(statusreport, "Now just to wait for it to hatch");
                         display_report = 1;
-                        free(pet_name);
                         free(newpet);
+
+                        skip_input = 1;
+                        input_buffer = STORE_EXIT;
                         break;
                     }
                 }

@@ -85,6 +85,7 @@ const char *meme_egg_actions[] = {
 int running = 1;        /*set to 0 to break loop and exit game*/
 int update_page = 1;    /*Used to indicate if the terminal should be cleared and page refreshed/updated/changed*/
 int display_report = 0; /*Used to indicate if the status report should be displayed*/
+int skip_input = 0;
 int input_buffer;
 char input[256];
 Page curr_page = PAGE_MAIN;
