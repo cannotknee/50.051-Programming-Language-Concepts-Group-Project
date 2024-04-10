@@ -8,6 +8,14 @@
 #include "pet.h"
 #include "game.h"
 
+const adultPetCost petSellingDict[] = {
+    {"image/adult_display_1.txt", 100},
+    {"image/adult_display_2.txt", 200},
+    {"image/adult_display_3.txt", 300},
+    {"image/adult_display_4.txt", 100},
+    {"image/adult_display_5.txt", 300}
+};
+
 void handle_input(int input)
 {
     int i;
@@ -132,7 +140,7 @@ void handle_input(int input)
     case PAGE_STORE:
         switch (input)
         {
-        case STORE_BUY_1:
+        case STORE_BUY:
             /* TODO: initialize pet and store in pets_owned*/
             if (global_game->money >= 50)
             {
@@ -232,9 +240,29 @@ void handle_input(int input)
             }
 
             break;
-        case PET_SEll:
-            printf("Sell not implemented yet\n");
-            break;
+        case PET_SELL:
+            if (*current_pet->growth == ADULT){
+                for (i = 0; i < NUM_ADULT_STAGE_FILES; i++){
+                    if (strcmp(petSellingDict[i].petImageName, current_pet->display_filename) == 0)
+                    {
+                        printf("This %s vs That %s\n", petSellingDict[i].petImageName, current_pet->display_filename);
+                        global_game->money += petSellingDict[i].petCost;
+                        global_game->pets_owned[i] = NULL;
+                        sprintf(actionresult, "You have sold your pet, %s", current_pet->name);
+                        sprintf(statusreport, "%d have been added to your account", petSellingDict[i].petCost);
+                        display_report = 1;
+                        update_page = 1;
+                        break;
+                    }
+                }
+            }
+            else{
+                strcpy(actionresult, "Pet is not fully grown");
+                strcpy(statusreport, "You can't sell a pet that is not an adult");
+                display_report = 1;
+                update_page = 1;
+                break;
+            }
         case PET_EXIT:
             curr_page = PAGE_HOME;
             update_page = 1;

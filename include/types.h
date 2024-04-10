@@ -39,10 +39,8 @@ typedef enum
 
 typedef enum
 {
-    STORE_BUY_1 = 1, /*temp*/
-    STORE_BUY_2 = 2, /*temp*/
-    STORE_BUY_3 = 3, /*temp*/
-    STORE_BUY_MEDICINE = 4,
+    STORE_BUY = 1,
+    STORE_BUY_MEDICINE = 2,
     STORE_EXIT = 0
 } StoreOptions;
 
@@ -53,7 +51,7 @@ typedef enum
     PET_CLEAN = 3,
     PET_TRAIN = 4,
     PET_MEDICINE = 5,
-    PET_SEll = 6,
+    PET_SELL = 6,
     PET_EXIT = 0
 } PetOptions;
 
@@ -130,5 +128,10 @@ typedef struct legame
     int action_confirmation; /* if action_confirmation is true, enable the confirmation page*/
     pet **pets_owned;        /* store an array of pet that the player currently owns*/
 } game;
+
+typedef struct leAdultCost{
+    char *petImageName;
+    int petCost;
+} adultPetCost;
 
 #endif
