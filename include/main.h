@@ -79,7 +79,8 @@ const char *meme_egg_actions[] = {
     "Your egg learned to......sit there. Good job.",
     "Error: this should not be reachable, check meme_egg_actions",
     "That won't make it hatch any faster, this isn't lab-grown or anything",
-    "The vet thanks you for the free cash"};
+    "The vet thanks you for the free cash"
+};
 
 /* global vars */
 int running = 1;        /*set to 0 to break loop and exit game*/
