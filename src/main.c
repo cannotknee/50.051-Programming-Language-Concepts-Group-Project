@@ -14,13 +14,13 @@ int main(int argc, char *argv[])
 
     while (running)
     {
-        // #ifdef _WIN32 
-        //     system("cls");
-        // #elif __APPLE__ 
-        //     system("clear");
-        // #elif __linux__ 
-        //     system("clear");
-        // #endif 
+        #ifdef _WIN32 
+            system("cls");
+        #elif __APPLE__ 
+            system("clear");
+        #elif __linux__ 
+            system("clear");
+        #endif 
         
         if (update_page)
         {
