@@ -14,11 +14,16 @@ int main(int argc, char *argv[])
 
     while (running)
     {
-        system("clear");
-        system("cls");
+        #ifdef _WIN32 
+            system("cls");
+        #elif __APPLE__ 
+            system("clear");
+        #elif __linux__ 
+            system("clear");
+        #endif 
+        
         if (update_page)
         {
-            printf("\033[H\033[J"); /*Clear screen, might want to find a more elegant way*/
             display_page();
             update_page = 0;
         }
@@ -47,17 +52,4 @@ int main(int argc, char *argv[])
     printf("Goodbye\n");
 
     exit(0);
-}
-
-/*for testing purposes*/
-int main1(int argc, char *argv[])
-{
-    pet *newpet = (pet *)malloc(sizeof(pet));
-
-    init_pet(newpet);
-    /*print_stats(newpet);*/
-    printf("We got here yay\n");
-    set_name(newpet, "TestPet");
-    free(newpet);
-    return 0;
 }
