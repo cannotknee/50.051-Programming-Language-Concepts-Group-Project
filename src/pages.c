@@ -242,16 +242,18 @@ void handle_input(int input)
             break;
         case PET_SELL:
             if (*current_pet->growth == ADULT){
-                for (i = 0; i < NUM_ADULT_STAGE_FILES; i++){
-                    if (strcmp(petSellingDict[i].petImageName, current_pet->display_filename) == 0)
+                // remove current pet
+                for (i = 0; i < MAX_PETS; i++)
+                {
+                    if (global_game->pets_owned[i] == current_pet)
                     {
-                        printf("This %s vs That %s\n", petSellingDict[i].petImageName, current_pet->display_filename);
-                        global_game->money += petSellingDict[i].petCost;
                         global_game->pets_owned[i] = NULL;
+                        global_game->money += petSellingDict[i].petCost;
                         sprintf(actionresult, "You have sold your pet, %s", current_pet->name);
                         sprintf(statusreport, "%d have been added to your account", petSellingDict[i].petCost);
                         display_report = 1;
                         update_page = 1;
+                        break;
                         break;
                     }
                 }
