@@ -6,9 +6,6 @@
 #include "display_page.h"
 #include "game.h"
 
-/*Options to display on page are not finalised yet, some options may need to be hidden depending on state of game */
-/*TODO how to handle confirmation screens i.e. save completed quit?, confirm buy/sell, confirm read report. */
-
 void display_main(void)
 {
 

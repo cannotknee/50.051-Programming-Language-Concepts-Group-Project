@@ -148,9 +148,7 @@ int update_all_stats(pet *p, char *actionresult, char *statusreport)
             update_offsets(p);
     }
 
-    /*growth update*/
     *p->exp += 1;
-    /*TODO Growth message?*/
     switch (*p->growth)
     {
     case EGG:

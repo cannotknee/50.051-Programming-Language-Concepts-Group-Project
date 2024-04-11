@@ -14,7 +14,6 @@ typedef enum
     PAGE_CONFIRMATION,
     PAGE_SETTINGS
 } Page;
-/*TODO Confirmation page*/
 
 typedef enum
 {

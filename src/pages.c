@@ -141,7 +141,6 @@ void handle_input(int input)
         switch (input)
         {
         case STORE_BUY:
-            /* TODO: initialize pet and store in pets_owned*/
             if (global_game->money >= 50)
             {
                 global_game->money -= 50;
@@ -212,7 +211,6 @@ void handle_input(int input)
         {
             break;
         }
-        /*TODO select pet, currently default pet at index 0*/
         switch (input)
         {
         case PET_FEED:
