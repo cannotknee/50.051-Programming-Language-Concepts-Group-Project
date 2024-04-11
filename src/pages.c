@@ -304,8 +304,12 @@ void handle_input(int input)
         default:
             if (save_game(global_game, input))
             {
-                printf("Save Successful\n");
-                printf("Enter 0 to return to home\n");
+                strcpy(actionresult, "Save Successful");
+                strcpy(statusreport, "Enter 0 to return to home");
+                display_report = 1;
+                curr_page = PAGE_HOME;
+                update_page = 1;
+                break;
             }
             break;
         }
