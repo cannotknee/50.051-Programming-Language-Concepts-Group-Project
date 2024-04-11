@@ -34,12 +34,12 @@ int main(int argc, char *argv[])
             printf("%s\n", statusreport);
             display_report = 0;
         }
-        printf("====================================================\n");
-        printf("\nEnter a number to select an option: ");
 
         if (skip_input) {
             skip_input = 0;
         } else {
+            printf("====================================================\n");
+            printf("\nEnter a number to select an option: \n");
             fgets(input, BUFFER_SIZE, stdin);
             sscanf(input, "%d", &input_buffer);
 

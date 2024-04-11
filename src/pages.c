@@ -180,6 +180,7 @@ void handle_input(int input)
                 strcpy(statusreport, "Lowly peasant");
                 display_report = 1;
             }
+            break;
         case STORE_BUY_MEDICINE:
             /* if there is enough money, purchase medicine*/
             if (global_game->money >= 10)
